@@ -5,22 +5,18 @@
         <div id="container">
 	{% for competitionGroup in competitionGroups%}
             Gruppe {{ loop.index }} <br><br>
-		<table border="1px solid">
-		<tr>
-		<td>Kämpfer Nr.</td>
-		<td>Nachname</td>
-		<td>Vorname</td>
-		<td>Gewicht</td>
-		<td>Verein</td>
-		</tr>
+		<div id="fighterLists">
+                    <div id="">Kämpfer Nr. Nachname Vorname Gewicht Verein</div>
+                </div>
+               
 		{% for fighter in competitionGroup %}
-			<tr>
-			<td>{{ loop.index }}</td>
+			
+			{{ loop.index }}
 			<td>{{fighter.lastName}}</td>
 			<td>{{fighter.firstName}}</td>
 			<td>{{fighter.weight}}</td>
 			<td>{{fighter.club}}</td>
-			</tr>
+                        <br>
 		{% endfor %}
 
 		<tr>
