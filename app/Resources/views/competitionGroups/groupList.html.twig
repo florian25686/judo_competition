@@ -1,0 +1,142 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div id="wrapper">
+        <div id="container">
+	{% for competitionGroup in competitionGroups%}
+            Gruppe {{ loop.index }} <br><br>
+		<table border="1px solid">
+		<tr>
+		<td>Kämpfer Nr.</td>
+		<td>Nachname</td>
+		<td>Vorname</td>
+		<td>Gewicht</td>
+		<td>Verein</td>
+		</tr>
+		{% for fighter in competitionGroup %}
+			<tr>
+			<td>{{ loop.index }}</td>
+			<td>{{fighter.lastName}}</td>
+			<td>{{fighter.firstName}}</td>
+			<td>{{fighter.weight}}</td>
+			<td>{{fighter.club}}</td>
+			</tr>
+		{% endfor %}
+
+		<tr>
+                
+		<table border="1px solid">
+                    <tr>
+			<td>Kampf Nr</td>
+			<td width="200px">Kämpfer Weiss</td>
+			<td width="200px">Kämpfer Blau</td>
+			<td widht="200px">Ergebnis</td>
+			<td width="200px">Sieger Name</td>
+                    </tr>
+                    <br>
+                {# Prüfe ob Kampf 5 gegen 2 möglich ist #}
+                {% if competitionGroup.4.0 is defined and competitionGroup.1.0 is defined %}
+                <tr>
+                        <td>1</td>
+                        <td>{{competitionGroup.4.0.lastName}},{{competitionGroup.4.0.firstName}}</td>
+                        <td>{{competitionGroup.1.0.lastName}},{{competitionGroup.1.0.firstName}}</td>
+                        <td>&nbsp;</td>
+                        <td></td>
+                </tr>
+                {% endif %}
+                {# Prüfe ob Kampf 1 gegen 3 möglich ist #}
+                {% if competitionGroup.0.0 is defined  and competitionGroup.2.0 is defined %}
+                <tr>
+                        <td>2</td>
+                        <td>{{competitionGroup.0.0.lastName}},{{competitionGroup.0.0.firstName}}</td>
+                        <td>{{competitionGroup.2.0.lastName}},{{competitionGroup.2.0.firstName}}</td>
+                        <td></td>
+                        <td></td>
+                </tr>
+                {% endif %}
+                {# Prüfe ob Kampf 2 gegen 4 möglich ist #}
+                {% if competitionGroup.1.0 is defined  and competitionGroup.3.0 is defined %}
+                <tr>
+                        <td>3</td>
+                        <td>{{competitionGroup.1.0.lastName}},{{competitionGroup.1.0.firstName}}</td>
+                        <td>{{competitionGroup.3.0.lastName}},{{competitionGroup.3.0.firstName}}</td>
+                        <td></td>
+                        <td></td>
+                </tr>
+                {% endif %}                
+		{# Prüfe ob Kampf 3 gegen 5 möglich ist #}
+                {% if competitionGroup.2.0 is defined  and competitionGroup.4.0 is defined %}
+                <tr>
+                        <td>4</td>
+                        <td>{{competitionGroup.2.0.lastName}},{{competitionGroup.2.0.firstName}}</td>
+                        <td>{{competitionGroup.4.0.lastName}},{{competitionGroup.4.0.firstName}}</td>
+                        <td></td>
+                        <td></td>
+                </tr>
+                {% endif %}  
+                {# Prüfe ob Kampf 4 gegen 1 möglich ist #}
+                {% if competitionGroup.3.0 is defined  and competitionGroup.0.0 is defined %}
+                <tr>
+                        <td>5</td>
+                        <td>{{competitionGroup.3.0.lastName}},{{competitionGroup.3.0.firstName}}</td>
+                        <td>{{competitionGroup.0.0.lastName}},{{competitionGroup.0.0.firstName}}</td>
+                        <td></td>
+                        <td></td>
+                </tr>
+                {% endif %}  
+                {# Prüfe ob Kampf 2 gegen 3 möglich ist #}
+                {% if competitionGroup.1.0 is defined  and competitionGroup.2.0 is defined %}
+                <tr>
+                        <td>6</td>
+                        <td>{{competitionGroup.1.0.lastName}},{{competitionGroup.1.0.firstName}}</td>
+                        <td>{{competitionGroup.2.0.lastName}},{{competitionGroup.2.0.firstName}}</td>
+                        <td></td>
+                        <td></td>
+                </tr>
+                {% endif %}  
+                {# Prüfe ob Kampf 4 gegen 5 möglich ist #}
+                {% if competitionGroup.3.0 is defined  and competitionGroup.4.0 is defined %}
+                <tr>
+                        <td>7</td>
+                        <td>{{competitionGroup.3.0.lastName}},{{competitionGroup.3.0.firstName}}</td>
+                        <td>{{competitionGroup.4.0.lastName}},{{competitionGroup.4.0.firstName}}</td>
+                        <td></td>
+                        <td></td>
+                </tr>
+                {% endif %}  
+                {# Prüfe ob Kampf 1 gegen 2 möglich ist #}
+                {% if competitionGroup.0.0 is defined  and competitionGroup.1.0 is defined %}
+                <tr>
+                        <td>8</td>
+                        <td>{{competitionGroup.0.0.lastName}},{{competitionGroup.0.0.firstName}}</td>
+                        <td>{{competitionGroup.1.0.lastName}},{{competitionGroup.1.0.firstName}}</td>
+                        <td></td>
+                        <td></td>
+                </tr>
+                {% endif %}  
+                {# Prüfe ob Kampf 3 gegen 4 möglich ist #}
+                {% if competitionGroup.2.0 is defined  and competitionGroup.3.0 is defined %}
+                <tr>
+                        <td>9</td>
+                        <td>{{competitionGroup.2.0.lastName}},{{competitionGroup.2.0.firstName}}</td>
+                        <td>{{competitionGroup.3.0.lastName}},{{competitionGroup.3.0.firstName}}</td>
+                        <td></td>
+                        <td></td>
+                </tr>
+                {% endif %}  
+                {# Prüfe ob Kampf 5 gegen 1 möglich ist #}
+                {% if competitionGroup.4.0 is defined  and competitionGroup.0.0 is defined %}
+                <tr>
+                        <td>10</td>
+                        <td>{{competitionGroup.4.0.lastName}},{{competitionGroup.4.0.firstName}}</td>
+                        <td>{{competitionGroup.0.0.lastName}},{{competitionGroup.0.0.firstName}}</td>
+                        <td></td>
+                        <td></td>
+                </tr>
+                {% endif %}  
+		</table>
+                <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+	{% endfor %}
+	</div>
+    </div>
+{% endblock %}
