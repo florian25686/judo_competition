@@ -26,7 +26,7 @@ class FighterController extends Controller
     
     /**
      * TODO: Create the form, block the groupaddition if someone is already in a group
-     * @Route("/createFighter", name="createFighter")
+     * @Route("/fighter/createFighter", name="createFighter")
      * @param Request $request
      */
     public function createFighterAction(Request $request) 

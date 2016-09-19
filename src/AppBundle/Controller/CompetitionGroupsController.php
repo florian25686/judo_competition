@@ -15,16 +15,15 @@ class CompetitionGroupsController extends Controller
 {
     /**
      * Zeige Wettkampfgruppen an
-     * @Route("/competition_groups", name="competition_groups_view")
+     * @Route("/competitionGroups", name="competition_groups_view")
      */
     public function indexAction(Request $request)
     {
         
-        
         // replace this example code with whatever you need
-        /*return $this->render('default/index.html.twig', [
+        return $this->render('competitionGroups/index.html.twig', [
             'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..'),
-        ]); */
+        ]);
     }
     
     /**
