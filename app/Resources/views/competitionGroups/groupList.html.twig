@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div id="wrapper">
+    
         <div id="container">
 	{% for competitionGroup in competitionGroups%}
          <div class="page-header">
@@ -140,20 +140,20 @@
                 {# Prüfe ob Kampf 5 gegen 1 möglich ist #}
                 {% if competitionGroup.4.0 is defined  and competitionGroup.0.0 is defined %}
                 <tr>
-                        <td>10</td>
-                        <td>{{competitionGroup.4.0.lastName}},{{competitionGroup.4.0.firstName}}</td>
-                        <td>{{competitionGroup.0.0.lastName}},{{competitionGroup.0.0.firstName}}</td>
-                        <td></td>
-                        <td></td>
-                </tr>
-                {% endif %}  
-                      </tbody>
-		</table>
-             </div>
+                    <td>10</td>
+                    <td>{{competitionGroup.4.0.lastName}},{{competitionGroup.4.0.firstName}}</td>
+                    <td>{{competitionGroup.0.0.lastName}},{{competitionGroup.0.0.firstName}}</td>
+                    <td></td>
+                    <td></td>
+            </tr>
+            {% endif %}  
+                  </tbody>
+            </table>
          </div>
-                <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-	{% endfor %}
-            
-	</div>
+     </div>
+            <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    {% endfor %}
+
     </div>
+  
 {% endblock %}

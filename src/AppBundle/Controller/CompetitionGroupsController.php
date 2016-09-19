@@ -38,7 +38,7 @@ class CompetitionGroupsController extends Controller
          * dry-run, all, gruppennummer für neuerstellung
          */
         $method = $request->attributes->get('method');
-       $competitionGroupsArr = array();
+        $competitionGroupsArr = array();
  
         switch($method) {
             case 'all':
