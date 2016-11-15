@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Controller;
+namespace CompetitionBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -47,10 +47,11 @@ class CompetitionGroupsController extends Controller
                
             default:
                $fighterRepository = $this->getDoctrine()
-                        ->getRepository('AppBundle:Fighter');
+                        ->getRepository('CompetitionBundle:Fighter');
                 
                 $query = $fighterRepository->createQueryBuilder('f')
                             ->where('f.inFight = 0')
+                            ->orderBy('f.groupId')
                             ->getQuery();
                 
                 $fighters = $query->getResult();

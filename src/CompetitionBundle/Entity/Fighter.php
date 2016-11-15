@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Entity;
+namespace CompetitionBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -38,7 +38,7 @@ class Fighter {
      private $club;
 
     /**
-     * @ORM\Column(name="ageGroup", type="string", length=50)
+     * @ORM\Column(name="ageGroup", type="string", length=50, options={"default": 0})
      */
      private $ageGroup;
 

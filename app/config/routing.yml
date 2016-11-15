@@ -1,3 +1,4 @@
-app:
-    resource: "@AppBundle/Controller/"
+competition:
+    resource: "@CompetitionBundle/Controller/"
     type:     annotation
+    prefix:   /

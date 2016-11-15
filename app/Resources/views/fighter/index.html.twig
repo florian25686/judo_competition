@@ -2,7 +2,36 @@
 
 {% block body %}
     <div class="container">
-        Fighter
+        
+        <div class="row">
+        <div class="col-md-8">
+
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Nachname</th>
+                <th>Vorname</th>
+                <th>Gewicht</th>
+                <th>Gruppe</th>
+                <th>Verein</th>
+              </tr>
+            </thead>
+                <tbody>
+                    {% for fighter in fighters %}
+                    <tr>	
+                        <td>{{ loop.index }}</td>
+                        <td>{{fighter.lastName}}</td>
+                        <td>{{fighter.firstName}}</td>
+                        <td>{{fighter.weight}}</td>
+                        <td>{{fighter.groupId}}</td>
+                        <td>{{fighter.club}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+          </table>
+        </div>
+     </div>
     </div>
 {% endblock %}
 
