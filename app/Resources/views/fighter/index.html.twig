@@ -1,8 +1,9 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+
     <div class="container">
-        
+
         <div class="row">
         <div class="col-md-8">
 
@@ -19,7 +20,7 @@
             </thead>
                 <tbody>
                     {% for fighter in fighters %}
-                    <tr>	
+                    <tr>
                         <td>{{ loop.index }}</td>
                         <td>{{fighter.lastName}}</td>
                         <td>{{fighter.firstName}}</td>
@@ -34,5 +35,3 @@
      </div>
     </div>
 {% endblock %}
-
-
