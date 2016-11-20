@@ -6,21 +6,21 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{% block title %}Judo Competition Manager{% endblock %}</title>
         {% block stylesheets %}
-          
+
             {% stylesheets 'bundles/CompetitionBundle/css/*' filter='cssrewrite' %}
                 <link rel="stylesheet" href="{{ asset_url }}" />
             {% endstylesheets %}
-            
+
         {% endblock %}
 
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
         {{ include('navigation.html.twig') }}
-        
+
         {% block navigation %} {% endblock %}
-        
-        
+
+
         {% block body %}{% endblock %}
 
         {% block javascripts %}
