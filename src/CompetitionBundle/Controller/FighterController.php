@@ -3,6 +3,7 @@
 namespace CompetitionBundle\Controller;
 
 use CompetitionBundle\Entity\Fighter;
+use CompetitionBundle\Form\FighterType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -39,6 +40,7 @@ class FighterController extends Controller
     
     /**
      * TODO: Create the form, block the groupaddition if someone is already in a group
+     * 
      * @Route("/fighter/createFighter", name="createFighter")
      * @param Request $request
      */
@@ -73,9 +75,40 @@ class FighterController extends Controller
             ]);
         }
         
-        
+            
         return $this->render('fighter/createFighter.html.twig', [
         	'form' => $form->createView(),
+	]);
+    }
+    
+     /**
+     * @Route("/fighter/editFighter/{id}", name="editFighter")
+     */
+    public function editFighterAction(Request $request, $id=0)
+    {
+        $em = $this->getDoctrine()->getManager();
+        
+        $fighterRepository = $this->getDoctrine()
+                        ->getRepository('CompetitionBundle:Fighter');
+        
+        $fighter = $fighterRepository->findOneById($id);
+        
+        $form = $this->createForm(FighterType::class, $fighter);
+        
+        $form->handleRequest($request);
+        
+        if($form->isSubmitted()) {
+            
+            $fighter = $form->getData();
+            
+            $em->persist($fighter);
+            $em->flush();
+            
+            return $this->redirectToRoute('fighterIndex');
+        }
+        return $this->render('fighter/createFighter.html.twig', [
+        	'form' => $form->createView(),
+                'id'   => $id
 	]);
     }
 }

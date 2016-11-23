@@ -1,15 +1,17 @@
 {% extends 'base.html.twig' %}
+{# Read the URL, Parameter "print" should add the print class #}
 
 {% block body %}
-    
-        <div id="container">
-	{% for competitionGroup in competitionGroups%}
+<!--div id="container" class="visible-print-inline" style="width: 21cm; height: 29.7cm;"-->
+    <div id="container" style="width: 21cm; height: 29.7cm;">
+    {% for competitionGroup in competitionGroups%}
+
          <div class="page-header">
              <h2>Gruppe {{ loop.index }}</h2>
          </div>
-	 <div class="row">
+	        <div class="row">
             <div class="col-md-8">
-                
+
               <table class="table table-striped">
                 <thead>
                   <tr>
@@ -22,7 +24,7 @@
                 </thead>
                     <tbody>
                         {% for fighter in competitionGroup %}
-                        <tr>	
+                        <tr>
                             <td>{{ loop.index }}</td>
                             <td>{{fighter.lastName}}</td>
                             <td>{{fighter.firstName}}</td>
@@ -37,7 +39,7 @@
          <div class="row">
              <div class="col-md-9">
                   <table class="table table-bordered table-striped">
-                      <thead>      
+                      <thead>
                         <tr>
                             <td>#</td>
                             <td>Kämpfer Weiss</td>
@@ -76,8 +78,8 @@
                         <td></td>
                         <td></td>
                 </tr>
-                {% endif %}                
-		{# Prüfe ob Kampf 3 gegen 5 möglich ist #}
+                {% endif %}
+                {# Prüfe ob Kampf 3 gegen 5 möglich ist #}
                 {% if competitionGroup.2.0 is defined  and competitionGroup.4.0 is defined %}
                 <tr>
                         <td>4</td>
@@ -86,7 +88,7 @@
                         <td></td>
                         <td></td>
                 </tr>
-                {% endif %}  
+                {% endif %}
                 {# Prüfe ob Kampf 4 gegen 1 möglich ist #}
                 {% if competitionGroup.3.0 is defined  and competitionGroup.0.0 is defined %}
                 <tr>
@@ -96,7 +98,7 @@
                         <td></td>
                         <td></td>
                 </tr>
-                {% endif %}  
+                {% endif %}
                 {# Prüfe ob Kampf 2 gegen 3 möglich ist #}
                 {% if competitionGroup.1.0 is defined  and competitionGroup.2.0 is defined %}
                 <tr>
@@ -106,7 +108,7 @@
                         <td></td>
                         <td></td>
                 </tr>
-                {% endif %}  
+                {% endif %}
                 {# Prüfe ob Kampf 4 gegen 5 möglich ist #}
                 {% if competitionGroup.3.0 is defined  and competitionGroup.4.0 is defined %}
                 <tr>
@@ -116,7 +118,7 @@
                         <td></td>
                         <td></td>
                 </tr>
-                {% endif %}  
+                {% endif %}
                 {# Prüfe ob Kampf 1 gegen 2 möglich ist #}
                 {% if competitionGroup.0.0 is defined  and competitionGroup.1.0 is defined %}
                 <tr>
@@ -126,7 +128,7 @@
                         <td></td>
                         <td></td>
                 </tr>
-                {% endif %}  
+                {% endif %}
                 {# Prüfe ob Kampf 3 gegen 4 möglich ist #}
                 {% if competitionGroup.2.0 is defined  and competitionGroup.3.0 is defined %}
                 <tr>
@@ -136,7 +138,7 @@
                         <td></td>
                         <td></td>
                 </tr>
-                {% endif %}  
+                {% endif %}
                 {# Prüfe ob Kampf 5 gegen 1 möglich ist #}
                 {% if competitionGroup.4.0 is defined  and competitionGroup.0.0 is defined %}
                 <tr>
@@ -146,14 +148,14 @@
                     <td></td>
                     <td></td>
             </tr>
-            {% endif %}  
+            {% endif %}
                   </tbody>
             </table>
          </div>
      </div>
-            <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+     <p class="visible-print-block" style="page-break-after:always;">
+     </p>
     {% endfor %}
 
-    </div>
-  
+  </div>
 {% endblock %}
