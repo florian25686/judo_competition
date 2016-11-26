@@ -7,8 +7,8 @@
         <title>{% block title %}Judo Competition Manager{% endblock %}</title>
         {% block stylesheets %}
 
-            {% stylesheets 'bundles/CompetitionBundle/css/*' filter='cssrewrite' %}
-                <link rel="stylesheet" href="{{ asset_url }}" />
+            {% stylesheets '@bootstrap_css' %}
+                <link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}"/>
             {% endstylesheets %}
 
         {% endblock %}
@@ -24,9 +24,13 @@
         {% block body %}{% endblock %}
 
         {% block javascripts %}
-            <script src="{{ asset('bundles/framework/js/jquery-3.1.0.min.js') }}"></script>
+            
+            {% javascripts '@jquery' '@bootstrap_js' %}
+                <script type="text/javascript" src="{{ asset_url }}"></script>
+            {% endjavascripts %}
+            
             <!-- Latest compiled and minified JavaScript -->
-            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+   
         {% endblock %}
 
         </body>
