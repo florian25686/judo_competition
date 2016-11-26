@@ -19,7 +19,6 @@
 
 {% block navigation %}
 <div class="container">
-
       <!-- Static navbar -->
       <nav class="navbar navbar-default">
         <div class="container-fluid">
@@ -34,16 +33,16 @@
           </div>
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-              <li class="{{ active_home }}"><a href="/">Home</a></li>
+                <li class="{{ active_home }}"><a href="/"><span class="glyphicon glyphicon-home" aria-hidden="true"></a></li>
               <li class="{{ active_fighter }} dropdown">
-                <a href="/fighter" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">menu.fighter <span class="caret"></span></a>
+                  <a href="/fighter" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user">&nbsp;menu.fighter <span class="caret"></span></a>
                 <ul class="dropdown-menu">
                     <li><a href="/fighter">menu.overview.fighter</a></li>
                     <li><a href="/fighter/createFighter">menu.create.fighter</a></li>
                 </ul>
             </li>
               <li class="{{ active_groups }} dropdown">
-                <a href="/competitionGroups" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">menu.groups <span class="caret"></span></a>
+                <a href="/competitionGroups" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-group"></span>menu.groups <span class="caret"></span></a>
                 <ul class="dropdown-menu">
                   <li><a href="/competitionGroups">menu.overview.groups</a></li>
                   <li><a href="/competition_groups/generate_groups">menu.create.groups</a></li>
@@ -55,7 +54,5 @@
         </div><!--/.container-fluid -->
       </nav>
 
-
-    </div> <!-- /container -->
-
+</div>
     {% endblock %}

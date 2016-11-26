@@ -3,6 +3,7 @@
 namespace CompetitionBundle\Controller;
 
 use CompetitionBundle\Entity\Fighter;
+use CompetitionBundle\Entity\Groups;
 use CompetitionBundle\Form\FighterType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -66,10 +67,29 @@ class FighterController extends Controller
         if($form->isSubmitted()) {
             
             $fighter = $form->getData();
-            
+            // Check if group exists
+            $group = $em->getRepository('CompetitionBundle:Groups')
+                    ->find($fighter->getGroupId());
+            print "fighter".$fighter->getGroupId();
+             
+           //  $groupExisting = $repositoryGroup->findOneById(array($fighter->getGroupId()));
+            if($group) {
+                // Fighter add
+                print "existing group";
+                $group->addFighter($fighter);
+                $em->persist($group);
+                
+            } else {
+                print "new Group";
+                $group = new Groups();
+                $group->addFighter($fighter);
+                $group->setStatus(1);
+                $group->setDeleted(NULL);
+                $em->persist($group);
+            }
             $em->persist($fighter);
             $em->flush();
-            
+            exit();
             return $this->render('fighter/createFighter.html.twig', [
         	'form' => $form->createView(),
             ]);
