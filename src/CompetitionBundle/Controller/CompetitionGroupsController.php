@@ -19,10 +19,34 @@ class CompetitionGroupsController extends Controller
      */
     public function indexAction(Request $request)
     {
+        $groupsRepository = $this->getDoctrine()
+                                    ->getRepository('CompetitionBundle:Groups');
+                
+        $groups = $groupsRepository->findAll(
+                    array('deleted' => NULL)
+                );
+
+        $fighterRepository = $this->getDoctrine()
+                ->getRepository('CompetitionBundle:Fighter');
+
+        $competitionGroupsArr = '';
+        foreach ($groups as $group) 
+        {                    
+            $fighters = $fighterRepository
+                        ->findBy(
+                            array('groupId' => $group->getId())
+                        );
+            $numberFighters = count($fighters);
+            
+            $competitionGroupsArr[$group->getId()]['numberFighters'] = $numberFighters;
+            $competitionGroupsArr[$group->getId()]['status']         = $group->getStatus();
+            $competitionGroupsArr[$group->getId()]['fighters']        = $fighters;
+        }
         
         // replace this example code with whatever you need
         return $this->render('competitionGroups/index.html.twig', [
             'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..'),
+            'competitionGroups' => $competitionGroupsArr,
         ]);
     }
     
@@ -46,21 +70,29 @@ class CompetitionGroupsController extends Controller
                 break;
                
             default:
-               $fighterRepository = $this->getDoctrine()
+                $groupsRepository = $this->getDoctrine()
+                                    ->getRepository('CompetitionBundle:Groups');
+                
+                $groups = $groupsRepository->findAll(
+                            array('status' => 1, 'deleted' => NULL)
+                        );
+                
+                $fighterRepository = $this->getDoctrine()
                         ->getRepository('CompetitionBundle:Fighter');
                 
-                $query = $fighterRepository->createQueryBuilder('f')
-                            ->where('f.inFight = 0')
-                            ->orderBy('f.groupId')
-                            ->getQuery();
-                
-                $fighters = $query->getResult();
-                
-                foreach ($fighters as $fighter) {
-                    //print_r($fighter);
-                    $competitionGroupsArr[$fighter->getGroupId()][] = $fighter;
+                $competitionGroupsArr = '';
+                foreach ($groups as $group) 
+                {                    
+                    $fighters = $fighterRepository
+                                ->findBy(
+                                    array('groupId' => $group->getId())
+                                );
+
+                    foreach ($fighters as $fighter) 
+                    {
+                        $competitionGroupsArr[$group->getId()][] = $fighter;
+                    }
                 }
-                
                 break;
         }
 

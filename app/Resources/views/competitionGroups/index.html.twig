@@ -2,7 +2,42 @@
 
 {% block body %}
  <div class="container">
-    Gruppen
+    
+    <div class="row">
+        <div class="col-md-8">
+
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>numberFighter</th>
+                <th>status</th>
+                <th>fighterMinWeight</th>
+                <th>Options</th>
+              </tr>
+            </thead>
+                <tbody>
+                    {% for key, competitionGroup in competitionGroups %}
+                    <tr>
+                        <td>Gruppe {{ key }}</td>
+                        <td>{{ competitionGroup.numberFighters }}</td>
+                        <td>{{ competitionGroup.status }}</td>
+                        {% set minWeight = '200' %}
+                        
+                        {% for fighter in competitionGroup.fighters %}
+                            {% if fighter.weight < minWeight %}
+                                {% set minWeight = fighter.weight %}
+                            {% endif %}
+                        {% endfor %}
+                        <td>{{ minWeight }}</td>
+                        <td></td>
+                    </tr>
+                   
+                    {% endfor %}
+                </tbody>
+          </table>
+        </div>
+     </div>
  </div>
 {% endblock %}
 

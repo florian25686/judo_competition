@@ -4,12 +4,11 @@
 {% block body %}
 <!--div id="container" class="visible-print-inline" style="width: 21cm; height: 29.7cm;"-->
     <div class="container" >
-    {% for competitionGroup in competitionGroups%}
-
+    {% for key,competitionGroup in competitionGroups %}
          <div class="page-header">
-             <h2>Gruppe {{ loop.index }}</h2>
+             <h2>Gruppe {{ key }}</h2>
          </div>
-	        <div class="row">
+	 <div class="row">
             <div class="col-md-8">
 
               <table class="table table-striped">
