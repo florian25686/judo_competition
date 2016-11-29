@@ -37,15 +37,15 @@
               <li class="{{ active_fighter }} dropdown">
                   <a href="/fighter" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user">&nbsp;menu.fighter <span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                    <li><a href="/fighter">menu.overview.fighter</a></li>
-                    <li><a href="/fighter/createFighter">menu.create.fighter</a></li>
+                    <li><a href="{{ url('fighterIndex') }}">menu.overview.fighter</a></li>
+                    <li><a href="{{ url('createFighter') }}">menu.create.fighter</a></li>
                 </ul>
             </li>
               <li class="{{ active_groups }} dropdown">
-                <a href="/competitionGroups" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-group"></span>menu.groups <span class="caret"></span></a>
+                <a href="{{ url('competition_groups_view') }}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-group"></span>menu.groups <span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                  <li><a href="/competitionGroups">menu.overview.groups</a></li>
-                  <li><a href="/competition_groups/generate_groups">menu.create.groups</a></li>
+                  <li><a href="{{ url('competition_groups_view') }}">menu.overview.groups</a></li>
+                  <li><a href="{# url('competition_group_create' ) #}">menu.create.groups</a></li>
 
                 </ul>
             </li>

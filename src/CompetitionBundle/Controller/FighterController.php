@@ -71,12 +71,12 @@ class FighterController extends Controller
             $group = $em->getRepository('CompetitionBundle:Groups')
                     ->find($fighter->getGroupId());
             
-            if($group) {
+            if($group && $group->getStatus() == 1) {
                 // Fighter add
                 $group->addFighter($fighter);
                 $em->persist($group);
                 
-            } else {
+            } elseif (!$group) {
                 $group = new Groups();
                 $group->addFighter($fighter);
                 $group->setStatus(1);
@@ -108,7 +108,28 @@ class FighterController extends Controller
         
         $fighter = $fighterRepository->findOneById($id);
         
-        $form = $this->createForm(FighterType::class, $fighter);
+        $group = $em->getRepository('CompetitionBundle:Groups')
+                    ->find($fighter->getGroupId());
+        
+       // Group has been printed and there some data shouldn't be changed easily
+        $disabled_fields = false;
+        
+        if ($group->getStatus() == 2) 
+        {
+            $disabled_fields = true;
+        }
+        
+        $form = $this->createForm(FighterType::class, $fighter)
+            ->add('weight', null, array(
+                'disabled' => $disabled_fields,
+             ))
+            ->add('gender', null, array(
+                'disabled' => $disabled_fields,
+            ))
+            ->add('groupId', null, array(
+                'disabled' => $disabled_fields
+            ));
+        
         
         $form->handleRequest($request);
         
@@ -116,21 +137,13 @@ class FighterController extends Controller
             
             $fighter = $form->getData();
             // Check if group exists
-            $group = $em->getRepository('CompetitionBundle:Groups')
-                    ->find($fighter->getGroupId());
             
-            if($group) {
+            
+            if($group && $group->getStatus() == 1) {
                 // Fighter add
                 $group->addFighter($fighter);
                 $em->persist($group);
-                
-            } else {
-                $group = new Groups();
-                $group->addFighter($fighter);
-                $group->setStatus(1);
-                $group->setDeleted(NULL);
-                $em->persist($group);
-            }
+            } 
             
             $em->persist($fighter);
             $em->flush();

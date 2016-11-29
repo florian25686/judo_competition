@@ -5,9 +5,12 @@
 <!--div id="container" class="visible-print-inline" style="width: 21cm; height: 29.7cm;"-->
     <div class="container" >
     {% for key,competitionGroup in competitionGroups %}
-         <div class="page-header">
-             <h2>Gruppe {{ key }}</h2>
+        <div class="col-xs-10">
+            <h2>Gruppe {{ key }}</h2>
          </div>
+        <div class="col-md-2">
+              <a href="{{ path('competition_group_create', { 'id': key }) }}">print</a>
+        </div>
 	 <div class="row">
             <div class="col-md-8">
 

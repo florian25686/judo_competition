@@ -13,23 +13,34 @@
                 <th>numberFighter</th>
                 <th>status</th>
                 <th>fighterMinWeight</th>
+                <th>fighterMaxWeight</th>
                 <th>Options</th>
               </tr>
             </thead>
                 <tbody>
                     {% for key, competitionGroup in competitionGroups %}
                     <tr>
-                        <td>Gruppe {{ key }}</td>
+                        <td><a href="{{ path('competition_group_display', { 'id' : key}) }}">Gruppe {{ key }}</a></td>
                         <td>{{ competitionGroup.numberFighters }}</td>
                         <td>{{ competitionGroup.status }}</td>
-                        {% set minWeight = '200' %}
+                        {% set minWeight = 200 %}
+                        {% set maxWeight = 0 %}
                         
                         {% for fighter in competitionGroup.fighters %}
                             {% if fighter.weight < minWeight %}
                                 {% set minWeight = fighter.weight %}
                             {% endif %}
+                            
+                            {% if fighter.weight > maxWeight %}
+                                {% set maxWeight = fighter.weight %}
+                            {% endif %}
                         {% endfor %}
+                        
+                        {% if minWeight == 200 %}
+                            {% set minWeight = 0 %}
+                        {% endif %}
                         <td>{{ minWeight }}</td>
+                        <td>{{ maxWeight }}</td>
                         <td></td>
                     </tr>
                    
