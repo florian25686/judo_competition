@@ -16,6 +16,7 @@ class FighterType extends AbstractType
             ->add('lastName')
             ->add('firstName')
             ->add('weight')
+            ->add('ageGroup')
             ->add('club')
             ->add('gender')
             ->add('groupId')

@@ -51,106 +51,17 @@
                         </tr>
                       </thead>
                       <tbody>
-                {# Prüfe ob Kampf 5 gegen 2 möglich ist #}
-                {% if competitionGroup.4.0 is defined and competitionGroup.1.0 is defined %}
-                <tr>
-                        <td>1</td>
-                        <td>{{competitionGroup.4.0.lastName}},{{competitionGroup.4.0.firstName}}</td>
-                        <td>{{competitionGroup.1.0.lastName}},{{competitionGroup.1.0.firstName}}</td>
-                        <td>&nbsp;</td>
-                        <td></td>
-                </tr>
-                {% endif %}
-                {# Prüfe ob Kampf 1 gegen 3 möglich ist #}
-                {% if competitionGroup.0.0 is defined  and competitionGroup.2.0 is defined %}
-                <tr>
-                        <td>2</td>
-                        <td>{{competitionGroup.0.0.lastName}},{{competitionGroup.0.0.firstName}}</td>
-                        <td>{{competitionGroup.2.0.lastName}},{{competitionGroup.2.0.firstName}}</td>
-                        <td></td>
-                        <td></td>
-                </tr>
-                {% endif %}
-                {# Prüfe ob Kampf 2 gegen 4 möglich ist #}
-                {% if competitionGroup.1.0 is defined  and competitionGroup.3.0 is defined %}
-                <tr>
-                        <td>3</td>
-                        <td>{{competitionGroup.1.0.lastName}},{{competitionGroup.1.0.firstName}}</td>
-                        <td>{{competitionGroup.3.0.lastName}},{{competitionGroup.3.0.firstName}}</td>
-                        <td></td>
-                        <td></td>
-                </tr>
-                {% endif %}
-                {# Prüfe ob Kampf 3 gegen 5 möglich ist #}
-                {% if competitionGroup.2.0 is defined  and competitionGroup.4.0 is defined %}
-                <tr>
-                        <td>4</td>
-                        <td>{{competitionGroup.2.0.lastName}},{{competitionGroup.2.0.firstName}}</td>
-                        <td>{{competitionGroup.4.0.lastName}},{{competitionGroup.4.0.firstName}}</td>
-                        <td></td>
-                        <td></td>
-                </tr>
-                {% endif %}
-                {# Prüfe ob Kampf 4 gegen 1 möglich ist #}
-                {% if competitionGroup.3.0 is defined  and competitionGroup.0.0 is defined %}
-                <tr>
-                        <td>5</td>
-                        <td>{{competitionGroup.3.0.lastName}},{{competitionGroup.3.0.firstName}}</td>
-                        <td>{{competitionGroup.0.0.lastName}},{{competitionGroup.0.0.firstName}}</td>
-                        <td></td>
-                        <td></td>
-                </tr>
-                {% endif %}
-                {# Prüfe ob Kampf 2 gegen 3 möglich ist #}
-                {% if competitionGroup.1.0 is defined  and competitionGroup.2.0 is defined %}
-                <tr>
-                        <td>6</td>
-                        <td>{{competitionGroup.1.0.lastName}},{{competitionGroup.1.0.firstName}}</td>
-                        <td>{{competitionGroup.2.0.lastName}},{{competitionGroup.2.0.firstName}}</td>
-                        <td></td>
-                        <td></td>
-                </tr>
-                {% endif %}
-                {# Prüfe ob Kampf 4 gegen 5 möglich ist #}
-                {% if competitionGroup.3.0 is defined  and competitionGroup.4.0 is defined %}
-                <tr>
-                        <td>7</td>
-                        <td>{{competitionGroup.3.0.lastName}},{{competitionGroup.3.0.firstName}}</td>
-                        <td>{{competitionGroup.4.0.lastName}},{{competitionGroup.4.0.firstName}}</td>
-                        <td></td>
-                        <td></td>
-                </tr>
-                {% endif %}
-                {# Prüfe ob Kampf 1 gegen 2 möglich ist #}
-                {% if competitionGroup.0.0 is defined  and competitionGroup.1.0 is defined %}
-                <tr>
-                        <td>8</td>
-                        <td>{{competitionGroup.0.0.lastName}},{{competitionGroup.0.0.firstName}}</td>
-                        <td>{{competitionGroup.1.0.lastName}},{{competitionGroup.1.0.firstName}}</td>
-                        <td></td>
-                        <td></td>
-                </tr>
-                {% endif %}
-                {# Prüfe ob Kampf 3 gegen 4 möglich ist #}
-                {% if competitionGroup.2.0 is defined  and competitionGroup.3.0 is defined %}
-                <tr>
-                        <td>9</td>
-                        <td>{{competitionGroup.2.0.lastName}},{{competitionGroup.2.0.firstName}}</td>
-                        <td>{{competitionGroup.3.0.lastName}},{{competitionGroup.3.0.firstName}}</td>
-                        <td></td>
-                        <td></td>
-                </tr>
-                {% endif %}
-                {# Prüfe ob Kampf 5 gegen 1 möglich ist #}
-                {% if competitionGroup.4.0 is defined  and competitionGroup.0.0 is defined %}
-                <tr>
-                    <td>10</td>
-                    <td>{{competitionGroup.4.0.lastName}},{{competitionGroup.4.0.firstName}}</td>
-                    <td>{{competitionGroup.0.0.lastName}},{{competitionGroup.0.0.firstName}}</td>
-                    <td></td>
-                    <td></td>
-            </tr>
-            {% endif %}
+                          
+                            {% for key,competitionGroupsFight in competitionGroupsFights %}
+                                <tr>
+                                    <td>{{ loop.index }}</td>
+                                    <td>{{ competitionGroupsFight.white.lastName }}, {{ competitionGroupsFight.white.firstName }}</td>
+                                    <td>{{ competitionGroupsFight.blue.lastName }}, {{ competitionGroupsFight.blue.firstName }}</td>
+                                    <td>&nbsp;</td>
+                                    <td></td>
+                                </tr>
+                            {% endfor %}
+                
                   </tbody>
             </table>
          </div>

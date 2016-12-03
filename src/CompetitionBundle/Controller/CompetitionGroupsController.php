@@ -67,7 +67,7 @@ class CompetitionGroupsController extends Controller
         $fighterRepository = $this->getDoctrine()
                 ->getRepository('CompetitionBundle:Fighter');
 
-        $competitionGroupsArr = '';
+        $competitionGroupsTmp = '';
         foreach ($groups as $group) 
         {                    
             $fighters = $fighterRepository
@@ -81,21 +81,24 @@ class CompetitionGroupsController extends Controller
                 {
                     $fighter->setInFight(TRUE);
                     $em->persist($fighter);
-                    $competitionGroupsArr[$group->getId()][] = $fighter;
+                    $competitionGroupsTmp[$group->getId()][] = $fighter;
                 }
                 $group->setStatus(2);
             }
             else {
                 foreach ($fighters as $fighter) 
                 {
-                    $competitionGroupsArr[$group->getId()][] = $fighter;
+                    $competitionGroupsTmp[$group->getId()][] = $fighter;
                 }
             }
         }
 
         $em->flush();
            
-
+        // Prepare the fighters array for display
+        $competitionGroupsArr = $this->generateFights($competitionGroupsTmp);
+        
+        
         return $this->render('competitionGroups/groupList.html.twig', [
         	'competitionGroups' => $competitionGroupsArr,
 	]);        
@@ -118,7 +121,7 @@ class CompetitionGroupsController extends Controller
         $fighterRepository = $this->getDoctrine()
                 ->getRepository('CompetitionBundle:Fighter');
 
-        $competitionGroupsArr = '';
+        $competitionGroupsTmp = '';
         foreach ($groups as $group) 
         {                    
             $fighters = $fighterRepository
@@ -128,13 +131,86 @@ class CompetitionGroupsController extends Controller
             
             foreach ($fighters as $fighter) 
             {
-                $competitionGroupsArr[$group->getId()][] = $fighter;
+                $competitionGroupsTmp[$group->getId()][] = $fighter;
             }
         }
 
+        $competitionGroupsArr = $this->generateFights($competitionGroupsTmp);
         
         return $this->render('competitionGroups/groupList.html.twig', [
-        	'competitionGroups' => $competitionGroupsArr,
+        	'competitionGroupsFights'  => $competitionGroupsArr,
+                'competitionGroups' => $competitionGroupsTmp,
 	]);        
+    }
+    
+    /**
+     * Generate fights dynamically based on the inputs array
+     * 
+     * @param array $competitionGroupsTmp
+     * @return array
+     */
+    private function generateFights( array $competitionGroupsTmpArr )
+    {
+        $competitionGroupsArr = array();
+        
+        // There might be more than one group, deal with it
+        foreach($competitionGroupsTmpArr as $key => $competitionGroupsTmp)
+        {
+            
+            $anzahl_fighter = count($competitionGroupsTmp);
+            $x = 1; // Counter Fighter
+            $i = 1; // Counter Fight
+            while ($x < $anzahl_fighter-1) 
+            {
+                $y = 0;
+                while ($y < $anzahl_fighter) {
+
+                    // Check if fighter doesn't fight vs himself
+                    if ( $competitionGroupsTmp[$x] !== $competitionGroupsTmp[$y] ) {
+
+
+                        if ($x < $y) {
+                            if ( $competitionGroupsTmp[$y] === $competitionGroupsTmp[$y-1]    
+                                ) {
+                                $competitionGroupsArr[$i]['white'] = $competitionGroupsTmp[$x];
+                                $competitionGroupsArr[$i]['blue']  = $competitionGroupsTmp[$y];
+                            }
+                                
+                            // turn the sides for the fighter
+                            $x_lines = $x + $y % 2;
+                            if ( $x_lines == 0 ) 
+                            {
+                                $competitionGroupsArr[$i]['white'] = $competitionGroupsTmp[$x];
+                                $competitionGroupsArr[$i]['blue']  = $competitionGroupsTmp[$y];
+                            } 
+                            else {
+                               $competitionGroupsArr[$i]['white'] = $competitionGroupsTmp[$y];
+                               $competitionGroupsArr[$i]['blue']  = $competitionGroupsTmp[$x]; 
+                            }
+                        }
+                        $y++;
+                       
+                    }
+                    // Fighter already in the list on the opposite site or would fight himself
+                    // Jump over it
+                    elseif ( $competitionGroupsTmp[$x] === $competitionGroupsTmp[$y] ) {
+                        
+                        if ($y+1 == $x && $y+1 <= $anzahl_fighter) {
+                            $y+2;
+                        } else {
+                            $y++;
+                        }
+                       // $i--;
+                    }
+                    $i++;
+                }
+                // $i++;
+                $x++;
+            }
+        }
+        
+        ksort($competitionGroupsArr);
+        return $competitionGroupsArr;
+        
     }
 }

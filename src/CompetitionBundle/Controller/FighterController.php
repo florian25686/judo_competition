@@ -32,10 +32,15 @@ class FighterController extends Controller
                 
         $fighters = $query->getResult();
         
+        $ageGroupFighters = array();
+        foreach ( $fighters as $fighter ) {
+            $ageGroupFighters[$fighter->getAgeGroup()]['fighters'][] = $fighter;
+        } 
+        
         // replace this example code with whatever you need
         return $this->render('fighter/index.html.twig', [
             'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..'),
-            'fighters' => $fighters,
+            'ageGroupFighters' => $ageGroupFighters,
         ]);
     }
     
@@ -56,6 +61,7 @@ class FighterController extends Controller
             ->add('lastName')
             ->add('firstName')
             ->add('weight')
+            ->add('ageGroup')
             ->add('club')
             ->add('gender')
             ->add('groupId')
