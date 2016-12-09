@@ -1,11 +1,21 @@
 {% extends 'base.html.twig' %}
 
+{% block scripts %}
+    
+
+  
+  {% endblock %}
+  
 {% block body %}
 
+<div id="droppable" class="col-md-8">
+  <p>accept: '#dragFighter'</p>
+</div>
+    
     <div class="container">
 {% set fighterLength = 0 %}
         <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-6">
             {% for ageGroupName, ageGroup in ageGroupFighters %}
                 <div class="page-header">
                     <h2>{{ ageGroupName }}</h2>
@@ -26,9 +36,10 @@
                   </thead>
                       <tbody>
                           {% for fighter in ageGroup.fighters %}
-                          <tr>
-                              <td>{{ loop.index }}</td>
-                              <td>{{fighter.lastName}}</td>
+                          <tr id="dragFighter">
+                              <td style="display:none" id="fighterId">{{ fighter.id }}</td>
+                              <td >{{ loop.index }}</td>
+                              <td >{{fighter.lastName}}</td>
                               <td>{{fighter.firstName}}</td>
                               <td>{{fighter.weight}}</td>
                               <td>{{fighter.ageGroup}}</td>
@@ -47,4 +58,7 @@
         </div>
      </div>
     </div>
+
+  
+
 {% endblock %}
