@@ -44,14 +44,14 @@
                       <thead>
                         <tr>
                             <td>#</td>
-                            <td>Kämpfer Weiss</td>
-                            <td>Kämpfer Blau</td>
-                            <td>Ergebnis</td>
-                            <td>Sieger Name</td>
+                            <td>{% trans %}fighter.weight{% endtrans %}</td>
+                            <td>{% trans %}fighter.blue{% endtrans %}</td>
+                            <td>{% trans %}result.points{% endtrans %}</td>
+                            <td>{% trans %}fighter.winner.name{% endtrans %}</td>
                         </tr>
                       </thead>
                       <tbody>
-                          
+
                             {% for key,competitionGroupsFight in competitionGroupsFights %}
                                 <tr>
                                     <td>{{ loop.index }}</td>
@@ -61,7 +61,7 @@
                                     <td></td>
                                 </tr>
                             {% endfor %}
-                
+
                   </tbody>
             </table>
          </div>

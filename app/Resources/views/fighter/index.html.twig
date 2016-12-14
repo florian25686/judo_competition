@@ -1,17 +1,16 @@
 {% extends 'base.html.twig' %}
 
 {% block scripts %}
-    
 
-  
+
+
   {% endblock %}
-  
-{% block body %}
 
+{% block body %}
 <div id="droppable" class="col-md-8">
   <p>accept: '#dragFighter'</p>
 </div>
-    
+
     <div class="container">
 {% set fighterLength = 0 %}
         <div class="row">
@@ -25,12 +24,12 @@
                   <thead>
                     <tr>
                       <th>#</th>
-                      <th>Nachname</th>
-                      <th>Vorname</th>
-                      <th>Gewicht</th>
-                      <th>Altersklasse</th>
-                      <th>Gruppe</th>
-                      <th>Verein</th>
+                      <th>{% trans %}Last name{% endtrans %}</th>
+                      <th>{% trans %}First name{% endtrans %}</th>
+                      <th>{% trans %}Weight {% endtrans %}</th>
+                      <th>{% trans %}Age group {% endtrans %}</th>
+                      <th>{% trans %}Group id {% endtrans %}</th>
+                      <th>{% trans %}Club {% endtrans %}</th>
                       <th>&nbsp;</th>
                     </tr>
                   </thead>
@@ -59,6 +58,6 @@
      </div>
     </div>
 
-  
+
 
 {% endblock %}

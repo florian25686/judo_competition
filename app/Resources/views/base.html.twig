@@ -14,7 +14,7 @@
         {% endblock %}
         <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
         <link rel="stylesheet" href="http://jqueryui.com/resources/demos/style.css">
-  
+
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
@@ -25,14 +25,17 @@
         {% block navigation %} {% endblock %}
 
 
-        {% block body %}{% endblock %}
+        {% block body %}
+        {% trans_default_domain "messages" %}
+
+        {% endblock %}
 
         {% block javascripts %}
-            
+
             {% javascripts '@jquery' '@bootstrap_js' %}
                 <script type="text/javascript" src="{{ asset_url }}"></script>
             {% endjavascripts %}
-            
+
             <!-- Latest compiled and minified JavaScript -->
             <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
               <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -51,7 +54,7 @@
                 });
               } );
               </script>
-            
+
         {% endblock %}
 
         </body>

@@ -2,19 +2,19 @@
 
 {% block body %}
  <div class="container">
-    
+
     <div class="row">
         <div class="col-md-8">
 
           <table class="table table-striped">
             <thead>
               <tr>
-                <th>#</th>
-                <th>numberFighter</th>
-                <th>status</th>
-                <th>fighterMinWeight</th>
-                <th>fighterMaxWeight</th>
-                <th>Options</th>
+                <th>{% trans %}group.number{% endtrans %}</th>
+                <th>{% trans %}numberFighter{% endtrans %}</th>
+                <th>{% trans %}status{% endtrans %}</th>
+                <th>{% trans %}fighterMinWeight{% endtrans %}</th>
+                <th>{% trans %}fighterMaxWeight{% endtrans %}</th>
+                <th>{% trans %}Options{% endtrans %}</th>
               </tr>
             </thead>
                 <tbody>
@@ -25,17 +25,17 @@
                         <td>{{ competitionGroup.status }}</td>
                         {% set minWeight = 200 %}
                         {% set maxWeight = 0 %}
-                        
+
                         {% for fighter in competitionGroup.fighters %}
                             {% if fighter.weight < minWeight %}
                                 {% set minWeight = fighter.weight %}
                             {% endif %}
-                            
+
                             {% if fighter.weight > maxWeight %}
                                 {% set maxWeight = fighter.weight %}
                             {% endif %}
                         {% endfor %}
-                        
+
                         {% if minWeight == 200 %}
                             {% set minWeight = 0 %}
                         {% endif %}
@@ -43,7 +43,7 @@
                         <td>{{ maxWeight }}</td>
                         <td></td>
                     </tr>
-                   
+
                     {% endfor %}
                 </tbody>
           </table>
@@ -51,4 +51,3 @@
      </div>
  </div>
 {% endblock %}
-
