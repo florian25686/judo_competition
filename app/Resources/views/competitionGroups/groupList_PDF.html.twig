@@ -1,0 +1,71 @@
+{% extends 'pdf.html.twig' %}
+{# Read the URL, Parameter "print" should add the print class #}
+
+{% block body %}
+<div id="container" class="visible-print-inline" style="width: 21cm; height: 29.7cm;">
+    {% for key,competitionGroup in competitionGroups %}
+        <div class="col-sm-10">
+            <h2>Gruppe {{ key }}</h2>
+         </div>
+
+	 <div class="row">
+            <div class="col-sm-8">
+
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Nachname</th>
+                    <th>Vorname</th>
+                    <th>Gewicht</th>
+                    <th>Verein</th>
+                  </tr>
+                </thead>
+                    <tbody>
+                        {% for fighter in competitionGroup %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td>{{fighter.lastName}}</td>
+                            <td>{{fighter.firstName}}</td>
+                            <td>{{fighter.weight}}</td>
+                            <td>{{fighter.club}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+              </table>
+            </div>
+         </div>
+         <div class="row">
+             <div class="col-sm-9">
+                  <table class="table table-bordered table-striped">
+                      <thead>
+                        <tr>
+                            <td>#</td>
+                            <td>{% trans %}fighter.weight{% endtrans %}</td>
+                            <td>{% trans %}fighter.blue{% endtrans %}</td>
+                            <td>{% trans %}result.points{% endtrans %}</td>
+                            <td>{% trans %}fighter.winner.name{% endtrans %}</td>
+                        </tr>
+                      </thead>
+                      <tbody>
+
+                            {% for key,competitionGroupsFight in competitionGroupsFights %}
+                                <tr>
+                                    <td>{{ loop.index }}</td>
+                                    <td>{{ competitionGroupsFight.white.lastName }}, {{ competitionGroupsFight.white.firstName }}</td>
+                                    <td>{{ competitionGroupsFight.blue.lastName }}, {{ competitionGroupsFight.blue.firstName }}</td>
+                                    <td>&nbsp;</td>
+                                    <td></td>
+                                </tr>
+                            {% endfor %}
+
+                  </tbody>
+            </table>
+         </div>
+     </div>
+     <p class="visible-print-block" style="page-break-after:always;">
+     </p>
+    {% endfor %}
+
+  </div>
+{% endblock %}
