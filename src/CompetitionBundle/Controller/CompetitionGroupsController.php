@@ -139,20 +139,24 @@ class CompetitionGroupsController extends Controller
         $competitionGroupsArr = $this->generateFights($competitionGroupsTmp);
 
         if ( $display == 'pdf' ) {
+
+          $filename = 'Group_'.$id.'.pdf';
+
           $html = $this->renderView('competitionGroups/groupList_PDF.html.twig', array(
                   'competitionGroupsFights'  => $competitionGroupsArr,
                   'competitionGroups' => $competitionGroupsTmp,
           ));
 
-          $this->get('knp_snappy.pdf')->setOption('page-size', 'A4');
-          $this->get('knp_snappy.pdf')->setOption('orientation', 'Portrait');
+          $snappy = $this->get('knp_snappy.pdf');
+          $snappy->setOption('page-size', 'A4');
+          $snappy->setOption('orientation', 'Portrait');
 
           return new Response(
-              $this->get('knp_snappy.pdf')->getOutputFromHtml($html),
+              $snappy->getOutputFromHtml($html),
               200,
               array(
                   'Content-Type'          => 'application/pdf',
-                  'Content-Disposition'   => 'attachment; filename="file.pdf"'
+                  'Content-Disposition'   => 'attachment; filename="'.$filename.'"'
               )
           );
         }
