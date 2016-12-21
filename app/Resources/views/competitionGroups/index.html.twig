@@ -41,7 +41,7 @@
                         {% endif %}
                         <td>{{ minWeight }}</td>
                         <td>{{ maxWeight }}</td>
-                        <td></td>
+                        <td><a href="{{ path('competition_group_display', { 'id' : key}) }}/pdf">PDF</a></td>
                     </tr>
 
                     {% endfor %}

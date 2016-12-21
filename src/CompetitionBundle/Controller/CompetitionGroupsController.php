@@ -106,9 +106,9 @@ class CompetitionGroupsController extends Controller
     }
 
     /**
-     * @Route("/competitionGroups/display_group/{id}", name="competition_group_display", requirements={"id": "\d+"})
+     * @Route("/competitionGroups/display_group/{id}/{display}", name="competition_group_display", requirements={"id": "\d+"})
      */
-    public function displayCompetitionGroups($id = -1)
+    public function displayCompetitionGroups($id = -1, $display = 'page')
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -138,20 +138,24 @@ class CompetitionGroupsController extends Controller
 
         $competitionGroupsArr = $this->generateFights($competitionGroupsTmp);
 
-        $html = $this->renderView('competitionGroups/groupList_PDF.html.twig', array(
-                'competitionGroupsFights'  => $competitionGroupsArr,
-                'competitionGroups' => $competitionGroupsTmp,
-        ));
+        if ( $display == 'pdf' ) {
+          $html = $this->renderView('competitionGroups/groupList_PDF.html.twig', array(
+                  'competitionGroupsFights'  => $competitionGroupsArr,
+                  'competitionGroups' => $competitionGroupsTmp,
+          ));
 
-        return new Response(
-            $this->get('knp_snappy.pdf')->getOutputFromHtml($html),
-            200,
-            array(
-                'Content-Type'          => 'application/pdf',
-                'Content-Disposition'   => 'attachment; filename="file.pdf"'
-            )
-        );
+          $this->get('knp_snappy.pdf')->setOption('page-size', 'A4');
+          $this->get('knp_snappy.pdf')->setOption('orientation', 'Portrait');
 
+          return new Response(
+              $this->get('knp_snappy.pdf')->getOutputFromHtml($html),
+              200,
+              array(
+                  'Content-Type'          => 'application/pdf',
+                  'Content-Disposition'   => 'attachment; filename="file.pdf"'
+              )
+          );
+        }
 
         return $this->render('competitionGroups/groupList.html.twig', [
         	'competitionGroupsFights'  => $competitionGroupsArr,
