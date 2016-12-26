@@ -182,16 +182,15 @@ class CompetitionGroupsController extends Controller
         {
 
             $anzahl_fighter = count($competitionGroupsTmp);
-            $x = 1; // Counter Fighter
-            $i = 1; // Counter Fight
+            $x = 0; // Counter Fighter
+            $i = 0; // Counter Fight
             while ($x < $anzahl_fighter-1)
             {
                 $y = 0;
                 while ($y < $anzahl_fighter) {
 
-                    // Check if fighter doesn't fight vs himself
+                    // Check if fighter does fight vs himself
                     if ( $competitionGroupsTmp[$x] !== $competitionGroupsTmp[$y] ) {
-
 
                         if ($x < $y) {
                             if ( $competitionGroupsTmp[$y] === $competitionGroupsTmp[$y-1]
@@ -233,8 +232,67 @@ class CompetitionGroupsController extends Controller
             }
         }
 
-        ksort($competitionGroupsArr);
-        return $competitionGroupsArr;
+        return $this->validateFightOrder($competitionGroupsArr);
+         //  $competitionGroupsArr;
 
+    }
+
+    private function validateFightOrder( $competitionGroupArr )
+    {
+      $orderedCompetitionGroup = array();
+      $fightNumbers = array_keys($competitionGroupArr);
+      $fightNumber = 0;
+      foreach ( $competitionGroupArr as $fight )
+      {
+        $fighterWhiteID = $fight['white']->getId();
+        $fighterBlueID  = $fight['blue']->getId();
+        $fighterBefore = array();
+        if ( $fightNumber >= 1 )
+        {
+          $fightNumberBefore = $fightNumber-1;
+
+          $fighterBefore[$competitionGroupArr[ $fightNumbers[$fightNumberBefore] ]['white']->getId()] = 1;
+          $fighterBefore[$competitionGroupArr[ $fightNumbers[$fightNumberBefore] ]['blue']->getId()] = 1;
+
+          print "<hr>";
+          print_r($fighterBefore);
+          print "figher White ID :".$fighterWhiteID."\r\n";
+          print "fighter Blue ID: ".$fighterBlueID."\r\n";
+
+          // One of the fighters exists in the fight before,
+          // add one to the key and return back to normal count
+          if( array_key_exists($fighterWhiteID, $fighterBefore) || array_key_exists($fighterBlueID, $fighterBefore) )
+          {
+            print "wird verschoben ";
+
+              $newPosition = $this->findNewKey($orderedCompetitionGroup, count($orderedCompetitionGroup)+2);
+              print "new position:".$newPosition."\r\n";
+              $orderedCompetitionGroup[$newPosition]['white'] = $fight['white'];
+              $orderedCompetitionGroup[$newPosition]['blue'] = $fight['blue'];
+
+          } else {
+            print "nicht verschieben";
+            $orderedCompetitionGroup[$fightNumber]['white'] = $fight['white'];
+            $orderedCompetitionGroup[$fightNumber]['blue'] = $fight['blue'];
+            $fightNumber++;
+          }
+        } else {
+          $orderedCompetitionGroup[$fightNumber]['white'] = $fight['white'];
+          $orderedCompetitionGroup[$fightNumber]['blue'] = $fight['blue'];
+          // $fightNumber++;
+        }
+$fightNumber++;
+
+      } // close foreach
+
+      return $orderedCompetitionGroup;
+    } // close function
+
+    protected function findNewKey($array, $desiredKey) {
+      $freePosition = $desiredKey;
+      while(array_key_exists($freePosition, $array)) {
+        $freePosition+2;
+      }
+      return $freePosition;
     }
 }
