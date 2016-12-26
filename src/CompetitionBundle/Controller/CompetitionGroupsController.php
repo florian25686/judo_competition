@@ -44,7 +44,6 @@ class CompetitionGroupsController extends Controller
             $competitionGroupsArr[$group->getId()]['fighters']       = $fighters;
         }
 
-        // replace this example code with whatever you need
         return $this->render('competitionGroups/index.html.twig', [
             'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..'),
             'competitionGroups' => $competitionGroupsArr,
@@ -62,7 +61,7 @@ class CompetitionGroupsController extends Controller
                             ->getRepository('CompetitionBundle:Groups');
 
         $groups = $groupsRepository->findBy(
-                    array('id' => $id, 'status' => 1, 'deleted' => NULL)
+                    array('id' => $id, 'status' => $this->getOpenGroupState(), 'deleted' => NULL)
                 );
 
         $fighterRepository = $this->getDoctrine()
@@ -76,7 +75,7 @@ class CompetitionGroupsController extends Controller
                             array('groupId' => $group->getId())
                         );
 
-            if (count($fighters) >= 2)
+            if (count($fighters) >= $this->minFightersPerGroup())
             {
                 foreach ($fighters as $fighter)
                 {
@@ -98,7 +97,6 @@ class CompetitionGroupsController extends Controller
 
         // Prepare the fighters array for display
         $competitionGroupsArr = $this->generateFights($competitionGroupsTmp);
-
 
         return $this->render('competitionGroups/groupList.html.twig', [
         	'competitionGroups' => $competitionGroupsArr,
@@ -136,29 +134,13 @@ class CompetitionGroupsController extends Controller
             }
         }
 
+        // TODO: Function generate Fights must be refactored
         $competitionGroupsArr = $this->generateFights($competitionGroupsTmp);
 
         if ( $display == 'pdf' ) {
 
-          $filename = 'Group_'.$id.'.pdf';
-
-          $html = $this->renderView('competitionGroups/groupList_PDF.html.twig', array(
-                  'competitionGroupsFights'  => $competitionGroupsArr,
-                  'competitionGroups' => $competitionGroupsTmp,
-          ));
-
-          $snappy = $this->get('knp_snappy.pdf');
-          $snappy->setOption('page-size', 'A4');
-          $snappy->setOption('orientation', 'Portrait');
-
-          return new Response(
-              $snappy->getOutputFromHtml($html),
-              200,
-              array(
-                  'Content-Type'          => 'application/pdf',
-                  'Content-Disposition'   => 'attachment; filename="'.$filename.'"'
-              )
-          );
+          $pdfResponse = $this->createPDFVersionOfGroup($id, $competitionGroupsArr, $competitionGroupsTmp);
+          return $pdfResponse;
         }
 
         return $this->render('competitionGroups/groupList.html.twig', [
@@ -168,6 +150,7 @@ class CompetitionGroupsController extends Controller
     }
 
     /**
+     * TODO: This function should be excluded into another controller
      * Generate fights dynamically based on the inputs array
      *
      * @param array $competitionGroupsTmp
@@ -281,7 +264,7 @@ class CompetitionGroupsController extends Controller
           $orderedCompetitionGroup[$fightNumber]['blue'] = $fight['blue'];
           // $fightNumber++;
         }
-$fightNumber++;
+        $fightNumber++;
 
       } // close foreach
 
@@ -294,5 +277,39 @@ $fightNumber++;
         $freePosition+2;
       }
       return $freePosition;
+    }
+
+    protected function createPDFVersionOfGroup($groupId, $competitionGroupsArr, $competitionGroupsTmp) {
+
+      $filename = 'Group_'.$groupId.'.pdf';
+
+      $html = $this->renderView('competitionGroups/groupList_PDF.html.twig', array(
+              'competitionGroupsFights'  => $competitionGroupsArr,
+              'competitionGroups' => $competitionGroupsTmp,
+      ));
+
+      $snappy = $this->get('knp_snappy.pdf');
+      $snappy->setOption('page-size', 'A4');
+      $snappy->setOption('orientation', 'Portrait');
+
+      return new Response(
+          $snappy->getOutputFromHtml($html),
+          200,
+          array(
+              'Content-Type'          => 'application/pdf',
+              'Content-Disposition'   => 'attachment; filename="'.$filename.'"'
+          )
+      );
+
+    }
+    /**
+     * This function returns the value of group open State
+     */
+    protected function getOpenGroupState() {
+      return 1;
+    }
+
+    protected function minFightersPerGroup() {
+      return 2;
     }
 }
