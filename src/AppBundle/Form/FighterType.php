@@ -27,7 +27,7 @@ class FighterType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'CompetitionBundle\Entity\Fighter',
+            'data_class' => 'AppBundle\Entity\Fighter',
         ));
     }
 }

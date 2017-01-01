@@ -275,11 +275,11 @@ class Fighter {
     /**
      * Set groups
      *
-     * @param \CompetitionBundle\Entity\Groups $groups
+     * @param \AppBundle\Entity\Groups $groups
      *
      * @return Fighter
      */
-    public function setGroups(\CompetitionBundle\Entity\Groups $groups = null)
+    public function setGroups(\AppBundle\Entity\Groups $groups = null)
     {
         $this->groups = $groups;
 
@@ -289,7 +289,7 @@ class Fighter {
     /**
      * Get groups
      *
-     * @return \CompetitionBundle\Entity\Groups
+     * @return \AppBundle\Entity\Groups
      */
     public function getGroups()
     {

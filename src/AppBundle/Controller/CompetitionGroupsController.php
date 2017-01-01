@@ -22,14 +22,14 @@ class CompetitionGroupsController extends Controller
     public function indexAction(Request $request)
     {
         $groupsRepository = $this->getDoctrine()
-                                    ->getRepository('CompetitionBundle:Groups');
+                                    ->getRepository('AppBundle:Groups');
 
         $groups = $groupsRepository->findAll(
                     array('deleted' => NULL)
                 );
 
         $fighterRepository = $this->getDoctrine()
-                ->getRepository('CompetitionBundle:Fighter');
+                ->getRepository('AppBundle:Fighter');
 
         $competitionGroupsArr = '';
         foreach ($groups as $group)
@@ -59,14 +59,14 @@ class CompetitionGroupsController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $groupsRepository = $this->getDoctrine()
-                            ->getRepository('CompetitionBundle:Groups');
+                            ->getRepository('AppBundle:Groups');
 
         $groups = $groupsRepository->findBy(
                     array('id' => $id, 'deleted' => NULL)
                 );
 
         $fighterRepository = $this->getDoctrine()
-                ->getRepository('CompetitionBundle:Fighter');
+                ->getRepository('AppBundle:Fighter');
 
         $competitionGroupsTmp = '';
         foreach ($groups as $group)

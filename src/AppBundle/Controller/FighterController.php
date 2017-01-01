@@ -2,9 +2,9 @@
 
 namespace AppBundle\Controller;
 
-use CompetitionBundle\Entity\Fighter;
-use CompetitionBundle\Entity\Groups;
-use CompetitionBundle\Form\FighterType;
+use AppBundle\Entity\Fighter;
+use AppBundle\Entity\Groups;
+use AppBundle\Form\FighterType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -22,24 +22,14 @@ class FighterController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-        
-        $fighterRepository = $this->getDoctrine()
-                        ->getRepository('CompetitionBundle:Fighter');
-        
-        $query = $fighterRepository->createQueryBuilder('f')
-                            ->getQuery();
-                
-        $fighters = $query->getResult();
+        $fighters = $this->loadAllFightersFromRepository();
         
         $ageGroupFighters = array();
         foreach ( $fighters as $fighter ) {
             $ageGroupFighters[$fighter->getAgeGroup()]['fighters'][] = $fighter;
         } 
         
-        // replace this example code with whatever you need
         return $this->render('fighter/index.html.twig', [
-            'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..'),
             'ageGroupFighters' => $ageGroupFighters,
         ]);
     }
@@ -74,7 +64,7 @@ class FighterController extends Controller
             
             $fighter = $form->getData();
             // Check if group exists
-            $group = $em->getRepository('CompetitionBundle:Groups')
+            $group = $em->getRepository('AppBundle:Groups')
                     ->find($fighter->getGroupId());
             
             if($group && $group->getStatus() == 1) {
@@ -110,11 +100,11 @@ class FighterController extends Controller
         $em = $this->getDoctrine()->getManager();
         
         $fighterRepository = $this->getDoctrine()
-                        ->getRepository('CompetitionBundle:Fighter');
+                        ->getRepository('AppBundle:Fighter');
         
         $fighter = $fighterRepository->findOneById($id);
         
-        $group = $em->getRepository('CompetitionBundle:Groups')
+        $group = $em->getRepository('AppBundle:Groups')
                     ->find($fighter->getGroupId());
         
        // Group has been printed and there some data shouldn't be changed easily
@@ -161,5 +151,20 @@ class FighterController extends Controller
         	'form' => $form->createView(),
                 'id'   => $id
 	]);
+    }
+    
+    
+    private function loadAllFightersFromRepository() {
+        $em = $this->getDoctrine()->getManager();
+        
+        $fighterRepository = $this->getDoctrine()
+                        ->getRepository('AppBundle:Fighter');
+        
+        $query = $fighterRepository->createQueryBuilder('f')
+                            ->getQuery();
+                
+        $fighters = $query->getResult();
+        
+        return $fighters;
     }
 }

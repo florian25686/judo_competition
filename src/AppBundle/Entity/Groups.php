@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Groups
  *
  * @ORM\Table(name="groups")
- * @ORM\Entity(repositoryClass="CompetitionBundle\Repository\GroupsRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\GroupsRepository")
  */
 class Groups
 {
@@ -134,11 +134,11 @@ class Groups
     /**
      * Add fighter
      *
-     * @param \CompetitionBundle\Entity\Fighter $fighter
+     * @param \AppBundle\Entity\Fighter $fighter
      *
      * @return Groups
      */
-    public function addFighter(\CompetitionBundle\Entity\Fighter $fighter)
+    public function addFighter(\AppBundle\Entity\Fighter $fighter)
     {
         $this->fighters[] = $fighter;
 
@@ -148,9 +148,9 @@ class Groups
     /**
      * Remove fighter
      *
-     * @param \CompetitionBundle\Entity\Fighter $fighter
+     * @param \AppBundle\Entity\Fighter $fighter
      */
-    public function removeFighter(\CompetitionBundle\Entity\Fighter $fighter)
+    public function removeFighter(\AppBundle\Entity\Fighter $fighter)
     {
         $this->fighters->removeElement($fighter);
     }

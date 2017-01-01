@@ -106,4 +106,4 @@ assetic:
             output: "fonts/glyphicons-halflings-regular.woff2"
         jquery:
             inputs:
-                - %kernel.root_dir%/../src/CompetitionBundle/Resources/js/jquery-3.1.1.min.js
+                - %kernel.root_dir%/../src/AppBundle/Resources/js/jquery-3.1.1.min.js

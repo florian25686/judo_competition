@@ -1,5 +1,5 @@
 competition:
-    resource: "@CompetitionBundle/Controller/"
+    resource: "@AppBundle/Controller/"
     type:     annotation
     prefix:   /
 
