@@ -1,6 +1,6 @@
 <?php
 
-namespace CompetitionBundle\Controller;
+namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class CompetitionGroupsController extends Controller
 {
+    const minFightersPerGroup = 2;
     /**
      * Zeige Wettkampfgruppen an
      * @Route("/competitionGroups", name="competition_groups_view")
@@ -51,59 +52,6 @@ class CompetitionGroupsController extends Controller
     }
 
     /**
-     * @Route("/competitionGroups/generate_group/{id}", name="competition_group_create", requirements={"id": "\d+"})
-     */
-    public function createCompetitionGroups($id = -1)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $groupsRepository = $this->getDoctrine()
-                            ->getRepository('CompetitionBundle:Groups');
-
-        $groups = $groupsRepository->findBy(
-                    array('id' => $id, 'status' => $this->getOpenGroupState(), 'deleted' => NULL)
-                );
-
-        $fighterRepository = $this->getDoctrine()
-                ->getRepository('CompetitionBundle:Fighter');
-
-        $competitionGroupsTmp = '';
-        foreach ($groups as $group)
-        {
-            $fighters = $fighterRepository
-                        ->findBy(
-                            array('groupId' => $group->getId())
-                        );
-
-            if (count($fighters) >= $this->minFightersPerGroup())
-            {
-                foreach ($fighters as $fighter)
-                {
-                    $fighter->setInFight(TRUE);
-                    $em->persist($fighter);
-                    $competitionGroupsTmp[$group->getId()][] = $fighter;
-                }
-                $group->setStatus(2);
-            }
-            else {
-                foreach ($fighters as $fighter)
-                {
-                    $competitionGroupsTmp[$group->getId()][] = $fighter;
-                }
-            }
-        }
-
-        $em->flush();
-
-        // Prepare the fighters array for display
-        $competitionGroupsArr = $this->generateFights($competitionGroupsTmp);
-
-        return $this->render('competitionGroups/groupList.html.twig', [
-        	'competitionGroups' => $competitionGroupsArr,
-	]);
-    }
-
-    /**
      * @Route("/competitionGroups/display_group/{id}/{display}", name="competition_group_display", requirements={"id": "\d+"})
      */
     public function displayCompetitionGroups($id = -1, $display = 'page')
@@ -123,12 +71,12 @@ class CompetitionGroupsController extends Controller
         $competitionGroupsTmp = '';
         foreach ($groups as $group)
         {
-            $fighters = $fighterRepository
+            $fightersInGroup = $fighterRepository
                         ->findBy(
                             array('groupId' => $group->getId())
                         );
 
-            foreach ($fighters as $fighter)
+            foreach ($fightersInGroup as $fighter)
             {
                 $competitionGroupsTmp[$group->getId()][] = $fighter;
             }
@@ -138,7 +86,6 @@ class CompetitionGroupsController extends Controller
         $competitionGroupsArr = $this->generateFights($competitionGroupsTmp);
 
         if ( $display == 'pdf' ) {
-
           $pdfResponse = $this->createPDFVersionOfGroup($id, $competitionGroupsArr, $competitionGroupsTmp);
           return $pdfResponse;
         }
@@ -237,24 +184,23 @@ class CompetitionGroupsController extends Controller
           $fighterBefore[$competitionGroupArr[ $fightNumbers[$fightNumberBefore] ]['white']->getId()] = 1;
           $fighterBefore[$competitionGroupArr[ $fightNumbers[$fightNumberBefore] ]['blue']->getId()] = 1;
 
+          /*
           print "<hr>";
           print_r($fighterBefore);
           print "figher White ID :".$fighterWhiteID."\r\n";
           print "fighter Blue ID: ".$fighterBlueID."\r\n";
-
+          */
           // One of the fighters exists in the fight before,
           // add one to the key and return back to normal count
           if( array_key_exists($fighterWhiteID, $fighterBefore) || array_key_exists($fighterBlueID, $fighterBefore) )
           {
-            print "wird verschoben ";
 
               $newPosition = $this->findNewKey($orderedCompetitionGroup, count($orderedCompetitionGroup)+2);
-              print "new position:".$newPosition."\r\n";
+
               $orderedCompetitionGroup[$newPosition]['white'] = $fight['white'];
               $orderedCompetitionGroup[$newPosition]['blue'] = $fight['blue'];
 
           } else {
-            print "nicht verschieben";
             $orderedCompetitionGroup[$fightNumber]['white'] = $fight['white'];
             $orderedCompetitionGroup[$fightNumber]['blue'] = $fight['blue'];
             $fightNumber++;

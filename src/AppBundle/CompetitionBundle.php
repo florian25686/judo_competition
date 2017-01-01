@@ -1,6 +1,6 @@
 <?php
 
-namespace CompetitionBundle;
+namespace AppBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

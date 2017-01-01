@@ -1,6 +1,6 @@
 <?php
 
-namespace CompetitionBundle\Controller;
+namespace AppBundle\Controller;
 
 use CompetitionBundle\Entity\Fighter;
 use CompetitionBundle\Entity\Groups;
