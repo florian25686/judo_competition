@@ -9,7 +9,9 @@
             <h2>Gruppe {{ key }}</h2>
          </div>
         <div class="col-xs-2">
-              <a href="{{ path('competition_group_display', { 'id' : key}) }}/pdf">PDF</a>
+              <a href="{{ path('competition_group_display', { 'id' : key}) }}/pdf">
+              <span class="glyphicon glyphicon-print" aria-hidden="true"></span>
+              </a>
         </div>
 	 <div class="row">
             <div class="col-xs-8">
