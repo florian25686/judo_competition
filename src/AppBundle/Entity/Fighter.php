@@ -8,7 +8,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\Table(name="fighter")
  */
-class Fighter {
+class Fighter
+{
 
     /**
      * @ORM\Column(type="integer")
@@ -64,11 +65,10 @@ class Fighter {
       */
      private $inFight;
 
-     public function __construct()
-     {
-         $this->gender = 'm';
-         
-     }
+    public function __construct()
+    {
+        $this->gender = 'm';
+    }
 
     /**
      * Get id

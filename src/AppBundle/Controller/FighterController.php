@@ -10,10 +10,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 
-
 /**
  * Controller für die Erstellung und Verwaltung von Wettkämpfern
- * 
+ *
  */
 class FighterController extends Controller
 {
@@ -25,9 +24,9 @@ class FighterController extends Controller
         $fighters = $this->loadAllFightersFromRepository();
         
         $ageGroupFighters = array();
-        foreach ( $fighters as $fighter ) {
+        foreach ($fighters as $fighter) {
             $ageGroupFighters[$fighter->getAgeGroup()]['fighters'][] = $fighter;
-        } 
+        }
         
         return $this->render('fighter/index.html.twig', [
             'ageGroupFighters' => $ageGroupFighters,
@@ -36,11 +35,11 @@ class FighterController extends Controller
     
     /**
      * TODO: Create the form, block the groupaddition if someone is already in a group
-     * 
+     *
      * @Route("/fighter/createFighter", name="createFighter")
      * @param Request $request
      */
-    public function createFighterAction(Request $request) 
+    public function createFighterAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         
@@ -60,23 +59,21 @@ class FighterController extends Controller
         
         $form->handleRequest($request);
         
-        if($form->isSubmitted()) {
-            
+        if ($form->isSubmitted()) {
             $fighter = $form->getData();
             // Check if group exists
             $group = $em->getRepository('AppBundle:Groups')
                     ->find($fighter->getGroupId());
             
-            if($group && $group->getStatus() == 1) {
+            if ($group && $group->getStatus() == 1) {
                 // Fighter add
                 $group->addFighter($fighter);
                 $em->persist($group);
-                
             } elseif (!$group) {
                 $group = new Groups();
                 $group->addFighter($fighter);
                 $group->setStatus(1);
-                $group->setDeleted(NULL);
+                $group->setDeleted(null);
                 $em->persist($group);
             }
             
@@ -88,8 +85,8 @@ class FighterController extends Controller
         
             
         return $this->render('fighter/createFighter.html.twig', [
-        	'form' => $form->createView(),
-	]);
+            'form' => $form->createView(),
+    ]);
     }
     
      /**
@@ -110,8 +107,7 @@ class FighterController extends Controller
        // Group has been printed and there some data shouldn't be changed easily
         $disabled_fields = false;
         
-        if ($group->getStatus() == 2) 
-        {
+        if ($group->getStatus() == 2) {
             $disabled_fields = true;
         }
         
@@ -129,32 +125,31 @@ class FighterController extends Controller
         
         $form->handleRequest($request);
         
-        if($form->isSubmitted()) {
-            
+        if ($form->isSubmitted()) {
             $fighter = $form->getData();
             // Check if group exists
             
             
-            if($group && $group->getStatus() == 1) {
+            if ($group && $group->getStatus() == 1) {
                 // Fighter add
                 $group->addFighter($fighter);
                 $em->persist($group);
-            } 
+            }
             
             $em->persist($fighter);
             $em->flush();
             
             return $this->redirectToRoute('fighterIndex');
-                
         }
         return $this->render('fighter/createFighter.html.twig', [
-        	'form' => $form->createView(),
+            'form' => $form->createView(),
                 'id'   => $id
-	]);
+    ]);
     }
     
     
-    private function loadAllFightersFromRepository() {
+    private function loadAllFightersFromRepository()
+    {
         $em = $this->getDoctrine()->getManager();
         
         $fighterRepository = $this->getDoctrine()
