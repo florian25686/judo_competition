@@ -80,15 +80,15 @@ class CompetitionGroupsController extends Controller
         }
 
         // TODO: Function generate Fights must be refactored
-        $competitionGroupsArr = $this->generateFights($competitionGroupsTmp);
+        $competitionGroupFights = $this->generateFights($competitionGroupsTmp);
 
         if ($display == 'pdf') {
-            $pdfResponse = $this->createPDFVersionOfGroup($id, $competitionGroupsArr, $competitionGroupsTmp);
+            $pdfResponse = $this->createPDFVersionOfGroup($id, $competitionGroupFights, $competitionGroupsTmp);
             return $pdfResponse;
         }
 
         return $this->render('competitionGroups/groupList.html.twig', [
-            'competitionGroupsFights'  => $competitionGroupsArr,
+            'competitionGroupsFights'  => $competitionGroupFights,
                 'competitionGroups' => $competitionGroupsTmp,
            ]);
     }
@@ -100,112 +100,35 @@ class CompetitionGroupsController extends Controller
      * @param array $competitionGroupsTmp
      * @return array
      */
-    private function generateFights(array $competitionGroupsTmpArr)
+    private function generateFights(array $competitionGroupsTmp)
     {
-        $competitionGroupsArr = array();
+        $generatedFights = array();
 
-        // There might be more than one group, deal with it
-        foreach ($competitionGroupsTmpArr as $key => $competitionGroupsTmp) {
-            $anzahl_fighter = count($competitionGroupsTmp);
-            $x = 0; // Counter Fighter
-            $i = 0; // Counter Fight
-            while ($x < $anzahl_fighter-1) {
-                $y = 0;
-                while ($y < $anzahl_fighter) {
+        foreach ($competitionGroupsTmp as $groupNumber => $groupFighters) {
 
-                    // Check if fighter does fight vs himself
-                    if ($competitionGroupsTmp[$x] !== $competitionGroupsTmp[$y]) {
-                        if ($x < $y) {
-                            if ($competitionGroupsTmp[$y] === $competitionGroupsTmp[$y-1]
-                                ) {
-                                $competitionGroupsArr[$i]['white'] = $competitionGroupsTmp[$x];
-                                $competitionGroupsArr[$i]['blue']  = $competitionGroupsTmp[$y];
-                            }
+            $generatedFights[0]['white'] = $groupFighters[0];
+            $generatedFights[0]['blue']  = $groupFighters[1];
+            $generatedFights[1]['white'] = $groupFighters[2];
+            $generatedFights[1]['blue']  = $groupFighters[3];
+            $generatedFights[2]['white'] = $groupFighters[0];
+            $generatedFights[2]['blue']  = $groupFighters[4];
+            $generatedFights[3]['white'] = $groupFighters[1];
+            $generatedFights[3]['blue']  = $groupFighters[3];
+            $generatedFights[4]['white'] = $groupFighters[0];
+            $generatedFights[4]['blue']  = $groupFighters[2];
+            $generatedFights[5]['white'] = $groupFighters[1];
+            $generatedFights[5]['blue']  = $groupFighters[4];
+            $generatedFights[6]['white']  = $groupFighters[0];
+            $generatedFights[6]['blue']  = $groupFighters[3];
+            $generatedFights[7]['white'] = $groupFighters[2];
+            $generatedFights[7]['blue']  = $groupFighters[4];
+            $generatedFights[8]['white']  = $groupFighters[1];
+            $generatedFights[8]['blue']  = $groupFighters[2];
+            $generatedFights[9]['white']  = $groupFighters[3];
+            $generatedFights[9]['blue']  = $groupFighters[4];
 
-                            // turn the sides for the fighter
-                            $x_lines = $x + $y % 2;
-                            if ($x_lines == 0) {
-                                $competitionGroupsArr[$i]['white'] = $competitionGroupsTmp[$x];
-                                $competitionGroupsArr[$i]['blue']  = $competitionGroupsTmp[$y];
-                            } else {
-                                $competitionGroupsArr[$i]['white'] = $competitionGroupsTmp[$y];
-                                $competitionGroupsArr[$i]['blue']  = $competitionGroupsTmp[$x];
-                            }
-                        }
-                        $y++;
-                    }
-                    // Fighter already in the list on the opposite site or would fight himself
-                    // Jump over it
-                    elseif ($competitionGroupsTmp[$x] === $competitionGroupsTmp[$y]) {
-                        if ($y+1 == $x && $y+1 <= $anzahl_fighter) {
-                            $y+2;
-                        } else {
-                            $y++;
-                        }
-                       // $i--;
-                    }
-                    $i++;
-                }
-                // $i++;
-                $x++;
-            }
         }
-
-        return $this->validateFightOrder($competitionGroupsArr);
-         //  $competitionGroupsArr;
-    }
-
-    private function validateFightOrder($competitionGroupArr)
-    {
-        $orderedCompetitionGroup = array();
-        $fightNumbers = array_keys($competitionGroupArr);
-        $fightNumber = 0;
-        foreach ($competitionGroupArr as $fight) {
-            $fighterWhiteID = $fight['white']->getId();
-            $fighterBlueID  = $fight['blue']->getId();
-            $fighterBefore = array();
-            if ($fightNumber >= 1) {
-                $fightNumberBefore = $fightNumber-1;
-
-                $fighterBefore[$competitionGroupArr[ $fightNumbers[$fightNumberBefore] ]['white']->getId()] = 1;
-                $fighterBefore[$competitionGroupArr[ $fightNumbers[$fightNumberBefore] ]['blue']->getId()] = 1;
-
-          /*
-          print "<hr>";
-          print_r($fighterBefore);
-          print "figher White ID :".$fighterWhiteID."\r\n";
-          print "fighter Blue ID: ".$fighterBlueID."\r\n";
-          */
-          // One of the fighters exists in the fight before,
-          // add one to the key and return back to normal count
-          if (array_key_exists($fighterWhiteID, $fighterBefore) || array_key_exists($fighterBlueID, $fighterBefore)) {
-              $newPosition = $this->findNewKey($orderedCompetitionGroup, count($orderedCompetitionGroup)+2);
-
-              $orderedCompetitionGroup[$newPosition]['white'] = $fight['white'];
-              $orderedCompetitionGroup[$newPosition]['blue'] = $fight['blue'];
-          } else {
-              $orderedCompetitionGroup[$fightNumber]['white'] = $fight['white'];
-              $orderedCompetitionGroup[$fightNumber]['blue'] = $fight['blue'];
-              $fightNumber++;
-          }
-            } else {
-                $orderedCompetitionGroup[$fightNumber]['white'] = $fight['white'];
-                $orderedCompetitionGroup[$fightNumber]['blue'] = $fight['blue'];
-          // $fightNumber++;
-            }
-            $fightNumber++;
-        } // close foreach
-
-      return $orderedCompetitionGroup;
-    } // close function
-
-    protected function findNewKey($array, $desiredKey)
-    {
-        $freePosition = $desiredKey;
-        while (array_key_exists($freePosition, $array)) {
-            $freePosition+2;
-        }
-        return $freePosition;
+        return $generatedFights;
     }
 
     protected function createPDFVersionOfGroup($groupId, $competitionGroupsArr, $competitionGroupsTmp)
