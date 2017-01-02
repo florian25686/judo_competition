@@ -105,27 +105,45 @@ class CompetitionGroupsController extends Controller
         $generatedFights = array();
 
         foreach ($competitionGroupsTmp as $groupNumber => $groupFighters) {
+            $numberOfFighters = count($groupFighters);
 
-            $generatedFights[0]['white'] = $groupFighters[0];
-            $generatedFights[0]['blue']  = $groupFighters[1];
-            $generatedFights[1]['white'] = $groupFighters[2];
-            $generatedFights[1]['blue']  = $groupFighters[3];
-            $generatedFights[2]['white'] = $groupFighters[0];
-            $generatedFights[2]['blue']  = $groupFighters[4];
-            $generatedFights[3]['white'] = $groupFighters[1];
-            $generatedFights[3]['blue']  = $groupFighters[3];
-            $generatedFights[4]['white'] = $groupFighters[0];
-            $generatedFights[4]['blue']  = $groupFighters[2];
-            $generatedFights[5]['white'] = $groupFighters[1];
-            $generatedFights[5]['blue']  = $groupFighters[4];
-            $generatedFights[6]['white']  = $groupFighters[0];
-            $generatedFights[6]['blue']  = $groupFighters[3];
-            $generatedFights[7]['white'] = $groupFighters[2];
-            $generatedFights[7]['blue']  = $groupFighters[4];
-            $generatedFights[8]['white']  = $groupFighters[1];
-            $generatedFights[8]['blue']  = $groupFighters[2];
-            $generatedFights[9]['white']  = $groupFighters[3];
-            $generatedFights[9]['blue']  = $groupFighters[4];
+            if( $numberOfFighters == 4) {
+              $generatedFights[0]['white'] = $groupFighters[0];
+              $generatedFights[0]['blue']  = $groupFighters[1];
+              $generatedFights[1]['white'] = $groupFighters[2];
+              $generatedFights[1]['blue']  = $groupFighters[3];
+              $generatedFights[3]['white'] = $groupFighters[0];
+              $generatedFights[3]['blue']  = $groupFighters[2];
+              $generatedFights[4]['white'] = $groupFighters[1];
+              $generatedFights[4]['blue']  = $groupFighters[3];
+              $generatedFights[6]['white'] = $groupFighters[1];
+              $generatedFights[6]['blue']  = $groupFighters[2];
+              $generatedFights[7]['white'] = $groupFighters[0];
+              $generatedFights[7]['blue']  = $groupFighters[3];
+            } elseif( $numberOfFighters == 5) {
+              $generatedFights[0]['white'] = $groupFighters[0];
+              $generatedFights[0]['blue']  = $groupFighters[1];
+              $generatedFights[1]['white'] = $groupFighters[2];
+              $generatedFights[1]['blue']  = $groupFighters[3];
+              $generatedFights[2]['white'] = $groupFighters[0];
+              $generatedFights[2]['blue']  = $groupFighters[4];
+              $generatedFights[3]['white'] = $groupFighters[1];
+              $generatedFights[3]['blue']  = $groupFighters[3];
+              $generatedFights[4]['white'] = $groupFighters[0];
+              $generatedFights[4]['blue']  = $groupFighters[2];
+              $generatedFights[5]['white'] = $groupFighters[1];
+              $generatedFights[5]['blue']  = $groupFighters[4];
+              $generatedFights[6]['white'] = $groupFighters[0];
+              $generatedFights[6]['blue']  = $groupFighters[3];
+              $generatedFights[7]['white'] = $groupFighters[2];
+              $generatedFights[7]['blue']  = $groupFighters[4];
+              $generatedFights[8]['white'] = $groupFighters[1];
+              $generatedFights[8]['blue']  = $groupFighters[2];
+              $generatedFights[9]['white'] = $groupFighters[3];
+              $generatedFights[9]['blue']  = $groupFighters[4];
+            } elseif( $numberOfFighters == 6 ) {
+              
+            }
 
         }
         return $generatedFights;
