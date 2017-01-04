@@ -33,6 +33,22 @@ class FighterController extends Controller
         ]);
     }
 
+    private function loadAllFightersFromRepository()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $fighterRepository = $this->getDoctrine()
+                        ->getRepository('AppBundle:Fighter');
+
+        $query = $fighterRepository->createQueryBuilder('f')
+                            ->orderBy('f.weight', 'ASC')
+                            ->orderBy('f.groupId', 'ASC')
+                            ->getQuery();
+
+        $fighters = $query->getResult();
+
+        return $fighters;
+    }
     /**
      * TODO: Create the form, block the groupaddition if someone is already in a group
      *
@@ -148,18 +164,5 @@ class FighterController extends Controller
     }
 
 
-    private function loadAllFightersFromRepository()
-    {
-        $em = $this->getDoctrine()->getManager();
 
-        $fighterRepository = $this->getDoctrine()
-                        ->getRepository('AppBundle:Fighter');
-
-        $query = $fighterRepository->createQueryBuilder('f')
-                            ->getQuery();
-
-        $fighters = $query->getResult();
-
-        return $fighters;
-    }
 }

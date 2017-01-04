@@ -20,10 +20,11 @@
                 <thead>
                   <tr>
                     <th>#</th>
-                    <th>Nachname</th>
-                    <th>Vorname</th>
-                    <th>Gewicht</th>
-                    <th>Verein</th>
+                    <th>{% trans %}Last name{% endtrans %}</th>
+                    <th>{% trans %}First name{% endtrans %}</th>
+                    <th>{% trans %}Weight {% endtrans %}</th>
+                    <th>{% trans %}Gender{% endtrans %}</th>
+                    <th>{% trans %}Club {% endtrans %}</th>
                   </tr>
                 </thead>
                     <tbody>
@@ -33,6 +34,7 @@
                             <td>{{fighter.lastName}}</td>
                             <td>{{fighter.firstName}}</td>
                             <td>{{fighter.weight}}</td>
+                            <td>{{fighter.gender}}</td>
                             <td>{{fighter.club}}</td>
                         </tr>
                         {% endfor %}

@@ -82,6 +82,10 @@
               <source>fighter</source>
               <target>Kämpfer</target>
             </trans-unit>
+            <trans-unit id="22">
+              <source>Group</source>
+              <target>Gruppe</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
