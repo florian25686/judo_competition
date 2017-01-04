@@ -22,17 +22,17 @@ class FighterController extends Controller
     public function indexAction(Request $request)
     {
         $fighters = $this->loadAllFightersFromRepository();
-        
+
         $ageGroupFighters = array();
         foreach ($fighters as $fighter) {
             $ageGroupFighters[$fighter->getAgeGroup()]['fighters'][] = $fighter;
         }
-        
+        ksort($ageGroupFighters);
         return $this->render('fighter/index.html.twig', [
             'ageGroupFighters' => $ageGroupFighters,
         ]);
     }
-    
+
     /**
      * TODO: Create the form, block the groupaddition if someone is already in a group
      *
@@ -42,7 +42,7 @@ class FighterController extends Controller
     public function createFighterAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        
+
         $fighter = new Fighter();
         $fighter->setinFight(0);
         $fighter->setAgeGroup('0');
@@ -56,15 +56,15 @@ class FighterController extends Controller
             ->add('groupId')
             ->add('save', SubmitType::class, array('label' => 'create.fighter.button'))
             ->getForm();
-        
+
         $form->handleRequest($request);
-        
+
         if ($form->isSubmitted()) {
             $fighter = $form->getData();
             // Check if group exists
             $group = $em->getRepository('AppBundle:Groups')
                     ->find($fighter->getGroupId());
-            
+
             if ($group && $group->getStatus() == 1) {
                 // Fighter add
                 $group->addFighter($fighter);
@@ -76,41 +76,41 @@ class FighterController extends Controller
                 $group->setDeleted(null);
                 $em->persist($group);
             }
-            
+
             $em->persist($fighter);
             $em->flush();
-            
+
             return $this->redirectToRoute('fighterIndex');
         }
-        
-            
+
+
         return $this->render('fighter/createFighter.html.twig', [
             'form' => $form->createView(),
     ]);
     }
-    
+
      /**
      * @Route("/fighter/editFighter/{id}", name="editFighter")
      */
     public function editFighterAction(Request $request, $id=0)
     {
         $em = $this->getDoctrine()->getManager();
-        
+
         $fighterRepository = $this->getDoctrine()
                         ->getRepository('AppBundle:Fighter');
-        
+
         $fighter = $fighterRepository->findOneById($id);
-        
+
         $group = $em->getRepository('AppBundle:Groups')
                     ->find($fighter->getGroupId());
-        
+
        // Group has been printed and there some data shouldn't be changed easily
         $disabled_fields = false;
-        
+
         if ($group->getStatus() == 2) {
             $disabled_fields = true;
         }
-        
+
         $form = $this->createForm(FighterType::class, $fighter)
             ->add('weight', null, array(
                 'disabled' => $disabled_fields,
@@ -121,24 +121,24 @@ class FighterController extends Controller
             ->add('groupId', null, array(
                 'disabled' => $disabled_fields
             ));
-        
-        
+
+
         $form->handleRequest($request);
-        
+
         if ($form->isSubmitted()) {
             $fighter = $form->getData();
             // Check if group exists
-            
-            
+
+
             if ($group && $group->getStatus() == 1) {
                 // Fighter add
                 $group->addFighter($fighter);
                 $em->persist($group);
             }
-            
+
             $em->persist($fighter);
             $em->flush();
-            
+
             return $this->redirectToRoute('fighterIndex');
         }
         return $this->render('fighter/createFighter.html.twig', [
@@ -146,20 +146,20 @@ class FighterController extends Controller
                 'id'   => $id
     ]);
     }
-    
-    
+
+
     private function loadAllFightersFromRepository()
     {
         $em = $this->getDoctrine()->getManager();
-        
+
         $fighterRepository = $this->getDoctrine()
                         ->getRepository('AppBundle:Fighter');
-        
+
         $query = $fighterRepository->createQueryBuilder('f')
                             ->getQuery();
-                
+
         $fighters = $query->getResult();
-        
+
         return $fighters;
     }
 }

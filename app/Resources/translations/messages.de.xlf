@@ -40,7 +40,7 @@
             </trans-unit>
             <trans-unit id="10">
               <source>numberFighter</source>
-              <target>Kämpfer erstellen</target>
+              <target>Anzahl Kämpfer</target>
             </trans-unit>
             <trans-unit id="11">
               <source>status</source>
@@ -77,6 +77,10 @@
             <trans-unit id="20">
               <source>fighter.winner.name</source>
               <target>Sieger Name</target>
+            </trans-unit>
+            <trans-unit id="21">
+              <source>fighter</source>
+              <target>Kämpfer</target>
             </trans-unit>
         </body>
     </file>
