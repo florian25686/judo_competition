@@ -14,16 +14,13 @@ class DefaultController extends Controller
     {
         $importer = $this->get('importer.csv');
         $importer->setHeader(1);
-        $importer->startImport('/home/florian/development/preperation/preperations/src/ImportBundle/Controller/fighter.csv');
-      
+        $importer->startImport('/home/florian/development/judo_competition/src/ImportBundle/Controller/fighter.csv');
+
         $content = $importer->getContent();
         print_r($importer->getContent());
-      
-      
-        $mailer = $this->get('app.mailer');
-        $sendStatus = $mailer->sendAction('florian@test.com', 'Hello Mails');
-      
-        print "sendstatus:".$sendStatus."<br>";
+
+
+
         return $this->render('ImportBundle:Default:index.html.twig');
     }
 }
