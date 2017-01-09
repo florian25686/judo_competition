@@ -42,7 +42,6 @@ class FighterController extends Controller
 
         $query = $fighterRepository->createQueryBuilder('f')
                             ->orderBy('f.weight', 'ASC')
-                            ->orderBy('f.groupId', 'ASC')
                             ->getQuery();
 
         $fighters = $query->getResult();
@@ -123,9 +122,12 @@ class FighterController extends Controller
        // Group has been printed and there some data shouldn't be changed easily
         $disabled_fields = false;
 
-        if ($group->getStatus() == 2) {
+        if ($group && $group->getStatus() == 2) {
             $disabled_fields = true;
+        } else {
+          $disabled_fields = false;
         }
+
 
         $form = $this->createForm(FighterType::class, $fighter)
             ->add('weight', null, array(
@@ -145,7 +147,6 @@ class FighterController extends Controller
             $fighter = $form->getData();
             // Check if group exists
 
-
             if ($group && $group->getStatus() == 1) {
                 // Fighter add
                 $group->addFighter($fighter);
@@ -162,7 +163,6 @@ class FighterController extends Controller
                 'id'   => $id
     ]);
     }
-
 
 
 }

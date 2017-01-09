@@ -12,9 +12,6 @@
             {% endstylesheets %}
 
         {% endblock %}
-
-        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
@@ -34,23 +31,7 @@
                 <script type="text/javascript" src="{{ asset_url }}"></script>
             {% endjavascripts %}
 
-            <!-- Latest compiled and minified JavaScript -->
-              <script>
-              $( function() {
-                $( "#draggable, #dragFighter" ).draggable();
-                $( "#droppable" ).droppable({
-                  accept: "#dragFighter",
-                  classes: {
-                    "ui-droppable-active": "ui-state-active",
-                    "ui-droppable-hover": "ui-state-hover"
-                  },
-                  drop: function( event, ui ) {
-                    console.log( $( 'this' ).text() );
-                  }
-                });
-              } );
-              </script>
-
+            
         {% endblock %}
 
         </body>
