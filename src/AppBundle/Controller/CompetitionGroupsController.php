@@ -6,6 +6,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use AppBundle\Entity\Groups;
 
 /**
  * Kontroller für 5er Wettkampfgruppen
@@ -30,7 +31,8 @@ class CompetitionGroupsController extends Controller
 
         $fighterRepository = $this->getDoctrine()
                 ->getRepository('AppBundle:Fighter');
-
+        
+        
         $competitionGroupsArr = '';
         foreach ($groups as $group) {
             $fighters = $fighterRepository
@@ -79,7 +81,7 @@ class CompetitionGroupsController extends Controller
             }
         }
 
-        // TODO: Function generate Fights must be refactored
+        
         $competitionGroupFights = $this->generateFights($competitionGroupsTmp);
 
         if ($display == 'pdf') {
@@ -93,6 +95,22 @@ class CompetitionGroupsController extends Controller
            ]);
     }
 
+    /**
+     * @Route("/competitionGroups/createGroup", name="competition_group_create")
+     */
+    public function createGroup() {
+        
+        $em = $this->getDoctrine()->getManager();
+        
+        $group = new Groups();
+        $group->setStatus(1);
+        
+        $em->persist($group);
+        
+        $em->flush();
+        
+        return true;
+    }
     /**
      * TODO: This function should be excluded into another controller
      * Generate fights dynamically based on the inputs array
@@ -139,6 +157,14 @@ class CompetitionGroupsController extends Controller
         
         $generatedFights = array();
         switch ($numberFighters):
+            case 2:
+                    $generatedFights[0]['white'] = $groupFighters[0];
+                    $generatedFights[0]['blue']  = $groupFighters[1];
+                    $generatedFights[1]['white'] = $groupFighters[1];
+                    $generatedFights[1]['blue']  = $groupFighters[0];
+                    $generatedFights[2]['white'] = $groupFighters[0];
+                    $generatedFights[2]['blue']  = $groupFighters[1];
+                    break;
             case 3: 
                     $generatedFights[0]['white'] = $groupFighters[0];
                     $generatedFights[0]['blue']  = $groupFighters[1];
@@ -191,7 +217,7 @@ class CompetitionGroupsController extends Controller
         return $generatedFights;
         
     }
-        
+    
     
     /**
      * This function returns the value of group open State

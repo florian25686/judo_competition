@@ -337,10 +337,10 @@ class Fighter
      *
      * @return Fighter
      */
-    public function setDeleted(\tinyint $deleted)
+    public function setDeleted($deleted)
     {
         $this->deleted = $deleted;
-
+        
         return $this;
     }
 

@@ -41,6 +41,7 @@ class FighterController extends Controller
                         ->getRepository('AppBundle:Fighter');
 
         $query = $fighterRepository->createQueryBuilder('f')
+                            ->where('f.deleted = 0')
                             ->orderBy('f.weight', 'ASC')
                             ->getQuery();
 
@@ -164,6 +165,28 @@ class FighterController extends Controller
             'form' => $form->createView(),
                 'id'   => $id
     ]);
+    }
+    
+    /**
+     * @Route("/fighter/deleteFighter/{id}", name="deleteFighter")
+     */
+    public function deleteFighter($id) {
+        $em = $this->getDoctrine()->getManager();
+        
+        $fighter = $this->getDoctrine()
+                        ->getRepository('AppBundle:Fighter')
+                        ->findOneBy(array('id' => $id));
+        
+        if($fighter->getId() == $id) {
+            $fighter->setDeleted(true);
+            $fighter->setGroupId(0);
+            $em->persist($fighter);
+        }
+        
+        $em->flush();
+        
+        
+        return $this->setRoute('fighterIndex');
     }
 
 
