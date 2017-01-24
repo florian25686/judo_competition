@@ -7,7 +7,6 @@ use AppBundle\Entity\Groups;
 use AppBundle\Form\FighterType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -33,6 +32,7 @@ class FighterController extends Controller
         ]);
     }
 
+    
     private function loadAllFightersFromRepository()
     {
         $em = $this->getDoctrine()->getManager();
@@ -61,16 +61,7 @@ class FighterController extends Controller
         $fighter = new Fighter();
         $fighter->setinFight(0);
         $fighter->setAgeGroup('0');
-        $form = $this->createFormBuilder($fighter)
-            ->add('lastName')
-            ->add('firstName')
-            ->add('weight')
-            ->add('ageGroup')
-            ->add('club')
-            ->add('gender')
-            ->add('groupId')
-            ->add('save', SubmitType::class, array('label' => 'create.fighter.button'))
-            ->getForm();
+        $form = $this->createForm(FighterType::class, $fighter);
 
         $form->handleRequest($request);
 
@@ -80,8 +71,7 @@ class FighterController extends Controller
             $group = $em->getRepository('AppBundle:Groups')
                     ->find($fighter->getGroupId());
 
-            if ($group && $group->getStatus() == 1) {
-                // Fighter add
+            if ($group->getId() && $group->getStatus() == 1) {
                 $group->addFighter($fighter);
                 $em->persist($group);
             } elseif (!$group) {
@@ -124,9 +114,16 @@ class FighterController extends Controller
 
         if ($group && $group->getStatus() == 2) {
             $disabled_fields = true;
-        } else {
-          $disabled_fields = false;
-        }
+        } elseif ($group && $group->getStatus() == 1) {
+            $group->addFighter($fighter);
+                $em->persist($group);
+        } elseif (!$group) {
+                $group = new Groups();
+                $group->addFighter($fighter);
+                $group->setStatus(1);
+                $group->setDeleted(null);
+                $em->persist($group);                
+         }
 
 
         $form = $this->createForm(FighterType::class, $fighter)
@@ -134,6 +131,9 @@ class FighterController extends Controller
                 'disabled' => $disabled_fields,
              ))
             ->add('gender', null, array(
+                'disabled' => $disabled_fields,
+            ))
+            ->add('birthDate', null, array(
                 'disabled' => $disabled_fields,
             ))
             ->add('groupId', null, array(
@@ -151,6 +151,8 @@ class FighterController extends Controller
                 // Fighter add
                 $group->addFighter($fighter);
                 $em->persist($group);
+            } else {
+                
             }
 
             $em->persist($fighter);

@@ -6,6 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 
 class FighterType extends AbstractType
 {
@@ -16,6 +17,13 @@ class FighterType extends AbstractType
             ->add('firstName')
             ->add('weight')
             ->add('ageGroup')
+            ->add('birthDate', BirthdayType::class, array(
+                'format' => 'dd MM yyyy',
+                'placeholder' => array(
+                    'year' => 'Year', 'month' => 'Month', 'day' => 'Day',
+                ),
+                'years' => range(2003,2011),
+            ))
             ->add('club')
             ->add('gender')
             ->add('groupId')

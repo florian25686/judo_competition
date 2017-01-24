@@ -86,6 +86,22 @@
               <source>Group</source>
               <target>Gruppe</target>
             </trans-unit>
+            <trans-unit id="23">
+              <source>Year</source>
+              <target>Jahr</target>
+            </trans-unit>
+            <trans-unit id="24">
+              <source>Month</source>
+              <target>Monat</target>
+            </trans-unit>
+            <trans-unit id="25">
+              <source>Day</source>
+              <target>Tag</target>
+            </trans-unit>
+            <trans-unit id="26">
+                <source>Birth date</source>
+                <target>Geburtsdatum</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
