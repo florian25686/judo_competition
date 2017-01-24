@@ -42,6 +42,11 @@ class Fighter
      * @ORM\Column(name="ageGroup", type="string", length=50, options={"default": 0})
      */
      private $ageGroup;
+     
+     /**
+     * @ORM\Column(name="birthDate", type="date")
+     */
+     private $birthDate;
 
     /**
      * @ORM\Column(name="gender", type="string", length=1)
@@ -64,6 +69,11 @@ class Fighter
       * @ORM\Column(name="inFight", type="boolean", options={"default": false})
       */
      private $inFight;
+     
+     /**
+      * @ORM\Column(name="deleted", type="boolean", options={"default": false})
+      */
+     private $deleted;
 
     public function __construct()
     {
@@ -294,5 +304,53 @@ class Fighter
     public function getGroups()
     {
         return $this->groups;
+    }
+
+    /**
+     * Set birthDate
+     *
+     * @param \DateTime $birthDate
+     *
+     * @return Fighter
+     */
+    public function setBirthDate($birthDate)
+    {
+        $this->birthDate = $birthDate;
+
+        return $this;
+    }
+
+    /**
+     * Get birthDate
+     *
+     * @return \DateTime
+     */
+    public function getBirthDate()
+    {
+        return $this->birthDate;
+    }
+
+    /**
+     * Set deleted
+     *
+     * @param \tinyint $deleted
+     *
+     * @return Fighter
+     */
+    public function setDeleted(\tinyint $deleted)
+    {
+        $this->deleted = $deleted;
+
+        return $this;
+    }
+
+    /**
+     * Get deleted
+     *
+     * @return \tinyint
+     */
+    public function getDeleted()
+    {
+        return $this->deleted;
     }
 }
