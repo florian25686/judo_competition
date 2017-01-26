@@ -37,7 +37,7 @@
                                   {% for key, group in competitionGroup %}
                                   <tr>
                                       <td>
-                                          {% if group.fighters|length > 2 %}
+                                          {% if group.fighters|length > 1 %}
                                             <a href="{{ path('competition_group_display', { 'id' : key}) }}">{% trans %} Group {% endtrans %} {{ key }}</a>
                                           {% else %}
                                               {% trans %} Group {% endtrans %} {{ key }}
