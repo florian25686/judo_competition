@@ -47,7 +47,14 @@ class Groups
      */
     private $deleted;
 
-
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->fighters = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
     /**
      * Get id
      *
@@ -132,13 +139,7 @@ class Groups
     {
         return $this->deleted;
     }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->fighters = new \Doctrine\Common\Collections\ArrayCollection();
-    }
+
 
     /**
      * Add fighter

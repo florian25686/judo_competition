@@ -68,13 +68,13 @@
         </div>
         </div>
         
-        <div class="col-md-2">
-            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-            {% for ageGroupName, ageGroup in ageGroupFighters %}
+        <div class="col-md-3">
+            <div class="panel-group" id="accordion1" role="tablist" aria-multiselectable="true">
+            {% for ageGroupName, ageGroup in fighterCountPerGroups %}
             <div class="panel panel-default">
               <div class="panel-heading" role="tab" id="heading1{{ loop.index }}">
                 <h4 class="panel-title">
-                  <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse1{{ loop.index }}" aria-expanded="true" aria-controls="collapse1{{ loop.index }}">
+                  <a role="button" data-toggle="collapse" data-parent="#accordion1" href="#collapse1{{ loop.index }}" aria-expanded="true" aria-controls="collapse1{{ loop.index }}">
                     {{ ageGroupName }}
                   </a>
                 </h4>
@@ -85,7 +85,16 @@
               {% endif %}
                 <div id="collapse1{{ loop.index }}" class="panel-collapse collapse {{ collapsein }}" role="tabpanel" aria-labelledby="heading1{{ loop.index }}">
                 <div class="panel-body">
-                    
+                    <table class="table table-striped">
+                    {% for ageGroups in ageGroup.groups %}
+                        
+                            <tr>
+                                <td>{% trans %}Group{% endtrans %} {{ ageGroups.id }}</td>
+                                <td>{{ ageGroups.numberFighter }} </td>
+                                    
+                            </tr>
+                       {% endfor %}
+                    </table>
                 </div>
                 </div>
             </div>
