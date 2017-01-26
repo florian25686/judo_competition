@@ -29,10 +29,23 @@ class FighterController extends Controller
         }
         ksort($ageGroupFighters);
         
+        $groupsRepository = $this->getDoctrine()
+                        ->getRepository('AppBundle:Groups');
         
+        $groups = $groupsRepository
+                ->findBy(array('deleted' => null));
+        
+        foreach($groups as $group) {
+            $fighterNumber = count($group->getFighters());
+            $fighterCountPerGroups[$group->getAgeGroup()->getName()]['groups'][] = array(
+                                                                                    'id' => $group->getId(),
+                                                                                    'numberFighter' => $fighterNumber,
+                                                                                    );
+         }
        
         return $this->render('fighter/index.html.twig', [
             'ageGroupFighters' => $ageGroupFighters,
+            'fighterCountPerGroups' => $fighterCountPerGroups,
         ]);
     }
 

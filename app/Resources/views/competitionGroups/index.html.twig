@@ -4,54 +4,79 @@
  <div class="container">
 
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-9">
+            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                {% for ageGroup, competitionGroup in competitionGroups %}
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="heading{{ loop.index }}">
+                          <h4 class="panel-title">
+                           <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse{{ loop.index }}" aria-expanded="true" aria-controls="collapse{{ loop.index }}">
+                            {{ ageGroup }} ( {{ competitionGroup|length }} {% trans %} Group {% endtrans %} )
+                          </a>
+                        </h4>
+                        </div>
+                    {% set collapsein = '' %}
+                    {% if loop.index == 1 %}
+                      {% set collapsein = 'in' %}
+                    {% endif %}
+                    <div id="collapse{{ loop.index }}" class="panel-collapse collapse {{ collapsein }}" role="tabpanel" aria-labelledby="heading{{ loop.index }}">
+                     <div class="panel-body">     
 
-          <table class="table table-striped">
-            <thead>
-              <tr>
-                <th>{% trans %}group.number{% endtrans %}</th>
-                <th>{% trans %}numberFighter{% endtrans %}</th>
-                <th>{% trans %}status{% endtrans %}</th>
-                <th>{% trans %}fighterMinWeight{% endtrans %}</th>
-                <th>{% trans %}fighterMaxWeight{% endtrans %}</th>
-                <th>{% trans %}Options{% endtrans %}</th>
-              </tr>
-            </thead>
-                <tbody>
-                    {% for key, competitionGroup in competitionGroups %}
-                    <tr>
-                        <td><a href="{{ path('competition_group_display', { 'id' : key}) }}">Gruppe {{ key }}</a></td>
-                        <td>{{ competitionGroup.numberFighters }}</td>
-                        <td>{{ competitionGroup.status }}</td>
-                        {% set minWeight = 200 %}
-                        {% set maxWeight = 0 %}
+                        <table class="table table-striped">
+                          <thead>
+                            <tr>
+                              <th>{% trans %}group.number{% endtrans %}</th>
+                              <th>{% trans %}numberFighter{% endtrans %}</th>
+                              <th>{% trans %}status{% endtrans %}</th>
+                              <th>{% trans %}fighterMinWeight{% endtrans %}</th>
+                              <th>{% trans %}fighterMaxWeight{% endtrans %}</th>
+                              <th>{% trans %}Options{% endtrans %}</th>
+                            </tr>
+                          </thead>
+                              <tbody>
+                                  {% for key, group in competitionGroup %}
+                                  <tr>
+                                      <td>
+                                          {% if group.fighters|length > 2 %}
+                                            <a href="{{ path('competition_group_display', { 'id' : key}) }}">{% trans %} Group {% endtrans %} {{ key }}</a>
+                                          {% else %}
+                                              {% trans %} Group {% endtrans %} {{ key }}
+                                          {% endif %}
+                                      </td>
+                                      <td>{{ group.numberFighters }}</td>
+                                      <td>{{ group.status }}</td>
+                                      {% set minWeight = 200 %}
+                                      {% set maxWeight = 0 %}
 
-                        {% for fighter in competitionGroup.fighters %}
-                            {% if fighter.weight < minWeight %}
-                                {% set minWeight = fighter.weight %}
-                            {% endif %}
+                                      {% for fighter in group.fighters %}
+                                          {% if fighter.weight < minWeight %}
+                                              {% set minWeight = fighter.weight %}
+                                          {% endif %}
 
-                            {% if fighter.weight > maxWeight %}
-                                {% set maxWeight = fighter.weight %}
-                            {% endif %}
-                        {% endfor %}
+                                          {% if fighter.weight > maxWeight %}
+                                              {% set maxWeight = fighter.weight %}
+                                          {% endif %}
+                                      {% endfor %}
 
-                        {% if minWeight == 200 %}
-                            {% set minWeight = 0 %}
-                        {% endif %}
-                        <td>{{ minWeight }}</td>
-                        <td>{{ maxWeight }}</td>
-                        <td>
-                            <a href="{{ path('competition_group_display', { 'id' : key}) }}/pdf" alt="PDF">
-                                <span class="glyphicon glyphicon-print" aria-hidden="true"></span>
-                            </a>
-                        </td>
-                    </tr>
+                                      {% if minWeight == 200 %}
+                                          {% set minWeight = 0 %}
+                                      {% endif %}
+                                      <td>{{ minWeight }}</td>
+                                      <td>{{ maxWeight }}</td>
+                                      <td>
+                                          <a href="{{ path('competition_group_display', { 'id' : key}) }}/pdf" alt="PDF">
+                                              <span class="glyphicon glyphicon-print" aria-hidden="true"></span>
+                                          </a>
+                                      </td>
+                                  </tr>
 
-                    {% endfor %}
-                </tbody>
-          </table>
-        </div>
+                                  {% endfor %}
+                              </tbody>
+                        </table>
+                     </div>
+                    </div>
+                </div>
+                              {% endfor %}
      </div>
  </div>
 {% endblock %}

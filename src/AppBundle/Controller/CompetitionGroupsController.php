@@ -29,14 +29,13 @@ class CompetitionGroupsController extends Controller
                     array('deleted' => null)
                 );        
         
-        $competitionGroupsArr = '';
+        $competitionGroupsArr = array();
         foreach ($groups as $group) {
             $fighters = $group->getFighters();
             $numberFighters = count($fighters);
-
-            $competitionGroupsArr[$group->getId()]['numberFighters'] = $numberFighters;
-            $competitionGroupsArr[$group->getId()]['status']         = $group->getStatus();
-            $competitionGroupsArr[$group->getId()]['fighters']       = $fighters;
+            $competitionGroupsArr[$group->getAgeGroup()->getName()][$group->getId()]['numberFighters'] = $numberFighters;
+            $competitionGroupsArr[$group->getAgeGroup()->getName()][$group->getId()]['status']         = $group->getStatus();
+            $competitionGroupsArr[$group->getAgeGroup()->getName()][$group->getId()]['fighters']       = $fighters;
         }
 
         return $this->render('competitionGroups/index.html.twig', [
