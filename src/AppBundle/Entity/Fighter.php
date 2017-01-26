@@ -29,7 +29,7 @@ class Fighter
      private $firstName;
 
     /**
-     * @ORM\Column(name="weight", type="decimal", scale=2)
+     * @ORM\Column(name="weight", type="string", length=20)
      */
      private $weight;
 
@@ -78,6 +78,7 @@ class Fighter
     public function __construct()
     {
         $this->gender = 'm';
+        $this->deleted = 0;
     }
 
     /**
