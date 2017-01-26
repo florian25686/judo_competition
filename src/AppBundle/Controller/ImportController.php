@@ -33,15 +33,19 @@ return "imported";
     {
         $em = $this->getDoctrine()->getManager();
         print_r($fighterFromFile);
+        
         $fighter = new Fighter();
         $fighter->setFirstName($fighterFromFile['Vorname']);
         $fighter->setLastName($fighterFromFile['Nachname']);
+        
+        $birthDate = new \DateTime($fighterFromFile['Jahr'].'-01-01');
+        $fighter->setBirthDate($birthDate);
         $fighter->setAgeGroup($fighterFromFile['Klasse']);
         $fighter->setWeight($fighterFromFile['Gewicht']);
         $fighter->setGender($fighterFromFile['Geschlecht']);
         $fighter->setClub($fighterFromFile['Verein']);
         $fighter->setinFight(0);
-        $fighter->setGroupId(10);
+        $fighter->setGroupId(100);
 
         $em->persist($fighter);
         $em->flush();

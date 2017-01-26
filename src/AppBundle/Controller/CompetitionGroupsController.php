@@ -6,6 +6,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use AppBundle\Entity\Groups;
 
 /**
  * Kontroller für 5er Wettkampfgruppen
@@ -30,7 +31,8 @@ class CompetitionGroupsController extends Controller
 
         $fighterRepository = $this->getDoctrine()
                 ->getRepository('AppBundle:Fighter');
-
+        
+        
         $competitionGroupsArr = '';
         foreach ($groups as $group) {
             $fighters = $fighterRepository
@@ -79,7 +81,7 @@ class CompetitionGroupsController extends Controller
             }
         }
 
-        // TODO: Function generate Fights must be refactored
+        
         $competitionGroupFights = $this->generateFights($competitionGroupsTmp);
 
         if ($display == 'pdf') {
@@ -94,6 +96,22 @@ class CompetitionGroupsController extends Controller
     }
 
     /**
+     * @Route("/competitionGroups/createGroup", name="competition_group_create")
+     */
+    public function createGroup() {
+        
+        $em = $this->getDoctrine()->getManager();
+        
+        $group = new Groups();
+        $group->setStatus(1);
+        
+        $em->persist($group);
+        
+        $em->flush();
+        
+        return true;
+    }
+    /**
      * TODO: This function should be excluded into another controller
      * Generate fights dynamically based on the inputs array
      *
@@ -106,44 +124,7 @@ class CompetitionGroupsController extends Controller
 
         foreach ($competitionGroupsTmp as $groupNumber => $groupFighters) {
             $numberOfFighters = count($groupFighters);
-
-            if( $numberOfFighters == 4) {
-              $generatedFights[0]['white'] = $groupFighters[0];
-              $generatedFights[0]['blue']  = $groupFighters[1];
-              $generatedFights[1]['white'] = $groupFighters[2];
-              $generatedFights[1]['blue']  = $groupFighters[3];
-              $generatedFights[3]['white'] = $groupFighters[0];
-              $generatedFights[3]['blue']  = $groupFighters[2];
-              $generatedFights[4]['white'] = $groupFighters[1];
-              $generatedFights[4]['blue']  = $groupFighters[3];
-              $generatedFights[6]['white'] = $groupFighters[1];
-              $generatedFights[6]['blue']  = $groupFighters[2];
-              $generatedFights[7]['white'] = $groupFighters[0];
-              $generatedFights[7]['blue']  = $groupFighters[3];
-            } elseif( $numberOfFighters == 5) {
-              $generatedFights[0]['white'] = $groupFighters[0];
-              $generatedFights[0]['blue']  = $groupFighters[1];
-              $generatedFights[1]['white'] = $groupFighters[2];
-              $generatedFights[1]['blue']  = $groupFighters[3];
-              $generatedFights[2]['white'] = $groupFighters[0];
-              $generatedFights[2]['blue']  = $groupFighters[4];
-              $generatedFights[3]['white'] = $groupFighters[1];
-              $generatedFights[3]['blue']  = $groupFighters[3];
-              $generatedFights[4]['white'] = $groupFighters[0];
-              $generatedFights[4]['blue']  = $groupFighters[2];
-              $generatedFights[5]['white'] = $groupFighters[1];
-              $generatedFights[5]['blue']  = $groupFighters[4];
-              $generatedFights[6]['white'] = $groupFighters[0];
-              $generatedFights[6]['blue']  = $groupFighters[3];
-              $generatedFights[7]['white'] = $groupFighters[2];
-              $generatedFights[7]['blue']  = $groupFighters[4];
-              $generatedFights[8]['white'] = $groupFighters[1];
-              $generatedFights[8]['blue']  = $groupFighters[2];
-              $generatedFights[9]['white'] = $groupFighters[3];
-              $generatedFights[9]['blue']  = $groupFighters[4];
-            } elseif( $numberOfFighters == 6 ) {
-              
-            }
+            $generatedFights = $this->FightLayoutByMemberCount($numberOfFighters,$groupFighters);
 
         }
         return $generatedFights;
@@ -171,6 +152,73 @@ class CompetitionGroupsController extends Controller
           )
       );
     }
+    
+    private function FightLayoutByMemberCount($numberFighters, $groupFighters) {
+        
+        $generatedFights = array();
+        switch ($numberFighters):
+            case 2:
+                    $generatedFights[0]['white'] = $groupFighters[0];
+                    $generatedFights[0]['blue']  = $groupFighters[1];
+                    $generatedFights[1]['white'] = $groupFighters[1];
+                    $generatedFights[1]['blue']  = $groupFighters[0];
+                    $generatedFights[2]['white'] = $groupFighters[0];
+                    $generatedFights[2]['blue']  = $groupFighters[1];
+                    break;
+            case 3: 
+                    $generatedFights[0]['white'] = $groupFighters[0];
+                    $generatedFights[0]['blue']  = $groupFighters[1];
+                    $generatedFights[1]['white'] = $groupFighters[0];
+                    $generatedFights[1]['blue']  = $groupFighters[2];
+                    $generatedFights[2]['white'] = $groupFighters[1];
+                    $generatedFights[2]['blue']  = $groupFighters[2];
+                   break;
+            case 4: 
+                    $generatedFights[0]['white'] = $groupFighters[0];
+                    $generatedFights[0]['blue']  = $groupFighters[1];
+                    $generatedFights[1]['white'] = $groupFighters[2];
+                    $generatedFights[1]['blue']  = $groupFighters[3];
+                    $generatedFights[3]['white'] = $groupFighters[0];
+                    $generatedFights[3]['blue']  = $groupFighters[2];
+                    $generatedFights[4]['white'] = $groupFighters[1];
+                    $generatedFights[4]['blue']  = $groupFighters[3];
+                    $generatedFights[6]['white'] = $groupFighters[1];
+                    $generatedFights[6]['blue']  = $groupFighters[2];
+                    $generatedFights[7]['white'] = $groupFighters[0];
+                    $generatedFights[7]['blue']  = $groupFighters[3];
+                   break;
+            case 5:
+                    $generatedFights[0]['white'] = $groupFighters[0];
+                    $generatedFights[0]['blue']  = $groupFighters[1];
+                    $generatedFights[1]['white'] = $groupFighters[2];
+                    $generatedFights[1]['blue']  = $groupFighters[3];
+                    $generatedFights[2]['white'] = $groupFighters[0];
+                    $generatedFights[2]['blue']  = $groupFighters[4];
+                    $generatedFights[3]['white'] = $groupFighters[1];
+                    $generatedFights[3]['blue']  = $groupFighters[3];
+                    $generatedFights[4]['white'] = $groupFighters[0];
+                    $generatedFights[4]['blue']  = $groupFighters[2];
+                    $generatedFights[5]['white'] = $groupFighters[1];
+                    $generatedFights[5]['blue']  = $groupFighters[4];
+                    $generatedFights[6]['white'] = $groupFighters[0];
+                    $generatedFights[6]['blue']  = $groupFighters[3];
+                    $generatedFights[7]['white'] = $groupFighters[2];
+                    $generatedFights[7]['blue']  = $groupFighters[4];
+                    $generatedFights[8]['white'] = $groupFighters[1];
+                    $generatedFights[8]['blue']  = $groupFighters[2];
+                    $generatedFights[9]['white'] = $groupFighters[3];
+                    $generatedFights[9]['blue']  = $groupFighters[4];
+                break;
+            default:
+                $generatedFights = array();
+                break;
+        endswitch;
+        
+        return $generatedFights;
+        
+    }
+    
+    
     /**
      * This function returns the value of group open State
      */
