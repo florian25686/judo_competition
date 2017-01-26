@@ -40,7 +40,16 @@ return "imported";
         
         $birthDate = new \DateTime($fighterFromFile['Jahr'].'-01-01');
         $fighter->setBirthDate($birthDate);
-        $fighter->setAgeGroup($fighterFromFile['Klasse']);
+        
+        $ageGroupRepository = $this->getDoctrine()
+                            ->getRepository('AppBundle:AgeGroups');
+        
+        $ageGroup = $ageGroupRepository
+                ->findBy(
+                        array('name' => $fighterFromFile['Klasse'])
+                        );
+        
+        $fighter->setAgeGroup($ageGroup[0]);
         $fighter->setWeight($fighterFromFile['Gewicht']);
         $fighter->setGender($fighterFromFile['Geschlecht']);
         $fighter->setClub($fighterFromFile['Verein']);

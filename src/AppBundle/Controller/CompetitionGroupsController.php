@@ -27,18 +27,11 @@ class CompetitionGroupsController extends Controller
 
         $groups = $groupsRepository->findAll(
                     array('deleted' => null)
-                );
-
-        $fighterRepository = $this->getDoctrine()
-                ->getRepository('AppBundle:Fighter');
-        
+                );        
         
         $competitionGroupsArr = '';
         foreach ($groups as $group) {
-            $fighters = $fighterRepository
-                        ->findBy(
-                            array('groupId' => $group->getId())
-                        );
+            $fighters = $group->getFighters();
             $numberFighters = count($fighters);
 
             $competitionGroupsArr[$group->getId()]['numberFighters'] = $numberFighters;
@@ -71,10 +64,7 @@ class CompetitionGroupsController extends Controller
 
         $competitionGroupsTmp = '';
         foreach ($groups as $group) {
-            $fightersInGroup = $fighterRepository
-                        ->findBy(
-                            array('groupId' => $group->getId())
-                        );
+            $fightersInGroup = $group->getFighters();
 
             foreach ($fightersInGroup as $fighter) {
                 $competitionGroupsTmp[$group->getId()][] = $fighter;
