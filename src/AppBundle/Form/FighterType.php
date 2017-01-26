@@ -26,7 +26,7 @@ class FighterType extends AbstractType
             ))
             ->add('club')
             ->add('gender')
-            ->add('groupId')
+            ->add('groups')
             ->add('save', SubmitType::class, array('label' => 'create.fighter.button'))
             ;
     }

@@ -21,12 +21,16 @@ class FighterController extends Controller
     public function indexAction(Request $request)
     {
         $fighters = $this->loadAllFightersFromRepository();
-
+        
+        $fighterCountPerGroups = array();
         $ageGroupFighters = array();
         foreach ($fighters as $fighter) {
-            $ageGroupFighters[$fighter->getAgeGroup()]['fighters'][] = $fighter;
+            $ageGroupFighters[$fighter->getAgeGroup()->getName()]['fighters'][] = $fighter;
         }
         ksort($ageGroupFighters);
+        
+        
+       
         return $this->render('fighter/index.html.twig', [
             'ageGroupFighters' => $ageGroupFighters,
         ]);
@@ -35,7 +39,6 @@ class FighterController extends Controller
     
     private function loadAllFightersFromRepository()
     {
-        $em = $this->getDoctrine()->getManager();
 
         $fighterRepository = $this->getDoctrine()
                         ->getRepository('AppBundle:Fighter');
@@ -61,7 +64,7 @@ class FighterController extends Controller
 
         $fighter = new Fighter();
         $fighter->setinFight(0);
-        $fighter->setAgeGroup('0');
+        
         $form = $this->createForm(FighterType::class, $fighter);
 
         $form->handleRequest($request);
@@ -107,9 +110,7 @@ class FighterController extends Controller
 
         $fighter = $fighterRepository->findOneById($id);
 
-        $group = $em->getRepository('AppBundle:Groups')
-                    ->find($fighter->getGroupId());
-
+        $group = $fighter->getGroups();
        // Group has been printed and there some data shouldn't be changed easily
         $disabled_fields = false;
 
@@ -118,13 +119,7 @@ class FighterController extends Controller
         } elseif ($group && $group->getStatus() == 1) {
             $group->addFighter($fighter);
                 $em->persist($group);
-        } elseif (!$group) {
-                $group = new Groups();
-                $group->addFighter($fighter);
-                $group->setStatus(1);
-                $group->setDeleted(null);
-                $em->persist($group);                
-         }
+        }
 
 
         $form = $this->createForm(FighterType::class, $fighter)
@@ -137,7 +132,7 @@ class FighterController extends Controller
             ->add('birthDate', null, array(
                 'disabled' => $disabled_fields,
             ))
-            ->add('groupId', null, array(
+            ->add('groups', null, array(
                 'disabled' => $disabled_fields
             ));
 

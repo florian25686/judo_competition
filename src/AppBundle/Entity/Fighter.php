@@ -39,7 +39,8 @@ class Fighter
      private $club;
 
     /**
-     * @ORM\Column(name="ageGroup", type="string", length=50, options={"default": 0})
+     * @ORM\ManyToOne(targetEntity="AgeGroups", inversedBy="fighters")
+     * @ORM\JoinColumn(name="agegroup", referencedColumnName="id")
      */
      private $ageGroup;
      
@@ -52,11 +53,6 @@ class Fighter
      * @ORM\Column(name="gender", type="string", length=1)
      */
      private $gender;
-     
-     /**
-      * @ORM\Column(name="groupId", type="integer")
-      */
-     private $groupId;
      
      /**
       * @ORM\ManyToOne(targetEntity="Groups", inversedBy="fighters")

@@ -33,6 +33,12 @@ class Groups
      * @ORM\Column(name="status", type="smallint")
      */
     private $status;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="AgeGroups", inversedBy="fightGroup")
+     * @ORM\JoinColumn(name="agegroup", referencedColumnName="id")
+     */
+     private $ageGroup;
 
     /**
      * @var \DateTime
@@ -52,6 +58,9 @@ class Groups
         return $this->id;
     }
 
+    public function __toString() {
+        return (string) $this->id;
+    }
     /**
      * Set fighters
      *
@@ -153,5 +162,29 @@ class Groups
     public function removeFighter(\AppBundle\Entity\Fighter $fighter)
     {
         $this->fighters->removeElement($fighter);
+    }
+
+    /**
+     * Set ageGroup
+     *
+     * @param \AppBundle\Entity\AgeGroups $ageGroup
+     *
+     * @return Groups
+     */
+    public function setAgeGroup(\AppBundle\Entity\AgeGroups $ageGroup = null)
+    {
+        $this->ageGroup = $ageGroup;
+
+        return $this;
+    }
+
+    /**
+     * Get ageGroup
+     *
+     * @return \AppBundle\Entity\AgeGroups
+     */
+    public function getAgeGroup()
+    {
+        return $this->ageGroup;
     }
 }
