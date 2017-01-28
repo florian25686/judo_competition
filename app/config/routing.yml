@@ -1,9 +1,0 @@
-competition:
-    resource: "@AppBundle/Controller/"
-    type:     annotation
-    prefix:   /
-
-import:
-    resource: "@ImportBundle/Controller/"
-    type:     annotation
-    prefix:   /import/

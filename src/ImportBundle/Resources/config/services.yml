@@ -1,3 +1,0 @@
-services:
-    importer.csv:
-      class: ImportBundle\Services\ImportCSV
