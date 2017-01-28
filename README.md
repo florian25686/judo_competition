@@ -3,4 +3,4 @@ Competition Manager for Judo Competitions
 
 #### Group Pages ####
 
-![View Groups]( judo_competition/images/AnsichtGruppen.png )
+![View Groups](https://github.com/florian25686/judo_competition/blob/gh-pages/images/AnsichtGruppen.png)
