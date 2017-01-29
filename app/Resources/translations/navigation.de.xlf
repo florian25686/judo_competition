@@ -26,6 +26,14 @@
                 <source>menu.create.groups</source>
                 <target>Gruppe erstellen</target>
             </trans-unit>
+            <trans-unit id="7">
+                <source>menu.administration</source>
+                <target>Verwaltung</target>
+            </trans-unit>
+            <trans-unit id="8">
+                <source>menu.overview.agegroups</source>
+                <target>Alterklassen</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

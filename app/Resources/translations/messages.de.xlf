@@ -102,6 +102,10 @@
                 <source>Birth date</source>
                 <target>Geburtsdatum</target>
             </trans-unit>
+            <trans-unit id="27">
+                <source>description</source>
+                <target>Bezeichnung</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
