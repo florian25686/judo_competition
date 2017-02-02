@@ -106,6 +106,14 @@
                 <source>description</source>
                 <target>Bezeichnung</target>
             </trans-unit>
+            <trans-unit id="28">
+                <source>Username</source>
+                <target>Benutzername</target>
+            </trans-unit>
+            <trans-unit id="29">
+                <source>Password</source>
+                <target>Passwort</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
