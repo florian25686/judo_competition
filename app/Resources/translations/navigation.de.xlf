@@ -32,7 +32,7 @@
             </trans-unit>
             <trans-unit id="8">
                 <source>menu.overview.agegroups</source>
-                <target>Alterklassen</target>
+                <target>Altersklassen</target>
             </trans-unit>
         </body>
     </file>
