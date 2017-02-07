@@ -34,29 +34,36 @@
           </div>
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li class="{{ active_home }}"><a href="/"><span class="glyphicon glyphicon-home" aria-hidden="true"></a></li>
               <li class="{{ active_fighter }} dropdown">
                   <a href="/fighter" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{% trans %} menu.fighter {% endtrans %} <span class="caret"></span></a>
                 <ul class="dropdown-menu">
                     <li><a href="{{ url('fighterIndex') }}">{% trans %} menu.overview.fighter {% endtrans %}</a></li>
-                    <li><a href="{{ url('createFighter') }}">{% trans from "navigation" %} menu.create.fighter {% endtrans %}</a></li>
+                    {% if is_granted("ROLE_MANAGEMENT") %}
+                        <li><a href="{{ url('createFighter') }}">{% trans from "navigation" %} menu.create.fighter {% endtrans %}</a></li>
+                    {% endif %}
                 </ul>
             </li>
             <li class="{{ active_groups }} dropdown">
               <a href="{{ url('competition_groups_view') }}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-group"></span> {% trans %} menu.groups {% endtrans %} &nbsp;<span class="caret"></span></a>
               <ul class="dropdown-menu">
                 <li><a href="{{ url('competition_groups_view') }}">{% trans %} menu.overview.groups {% endtrans %}</a></li>
-                <li><a href="{{ url('competition_group_create' ) }}">{% trans %} menu.create.groups {% endtrans %}</a></li>
-
+                {% if is_granted("ROLE_MANAGEMENT") %}
+                    <li><a href="{{ url('competition_group_create' ) }}">{% trans %} menu.create.groups {% endtrans %}</a></li>
+                {% endif %}
               </ul>
             </li>
-            <li class="{{ active_groups }} dropdown">
-              <a href="{{ url('ageGroupIndex') }}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-group"></span> {% trans %} menu.administration {% endtrans %} &nbsp;<span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                <li><a href="{{ url('ageGroupIndex') }}">{% trans %} menu.overview.agegroups {% endtrans %}</a></li>
-                <!--li><a href="{{ url('competition_group_create' ) }}">{% trans %} menu.create.groups {% endtrans %}</a></li-->
+            {% if is_granted("ROLE_ADMIN") %}
+                <li class="{{ active_groups }} dropdown">
+                  <a href="{{ url('ageGroupIndex') }}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-group"></span> {% trans %} menu.administration {% endtrans %} &nbsp;<span class="caret"></span></a>
+                  <ul class="dropdown-menu">
+                    <li><a href="{{ url('ageGroupIndex') }}">{% trans %} menu.overview.agegroups {% endtrans %}</a></li>
+                    <!--li><a href="{{ url('competition_group_create' ) }}">{% trans %} menu.create.groups {% endtrans %}</a></li-->
 
-              </ul>
+                  </ul>
+                </li>
+            {% endif %}
+            <li>
+                <a href="/logout">{% trans %} menu.logout {% endtrans %} </a>
             </li>
             </ul>
           </div><!--/.nav-collapse -->
