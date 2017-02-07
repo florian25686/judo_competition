@@ -64,9 +64,11 @@
                                       <td>{{ minWeight }}</td>
                                       <td>{{ maxWeight }}</td>
                                       <td>
-                                          <a href="{{ path('competition_group_display', { 'id' : key}) }}/pdf" alt="PDF">
-                                              <span class="glyphicon glyphicon-print" aria-hidden="true"></span>
-                                          </a>
+                                            {% if is_granted("ROLE_MANAGEMENT") %}
+                                                <a href="{{ path('competition_group_display', { 'id' : key}) }}/pdf" alt="PDF">
+                                                    <span class="glyphicon glyphicon-print" aria-hidden="true"></span>
+                                                </a>
+                                            {% endif %}
                                       </td>
                                   </tr>
 

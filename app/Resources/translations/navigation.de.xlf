@@ -34,6 +34,10 @@
                 <source>menu.overview.agegroups</source>
                 <target>Altersklassen</target>
             </trans-unit>
+            <trans-unit id="9">
+                <source>menu.logout</source>
+                <target>Abmelden</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

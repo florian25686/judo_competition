@@ -87,7 +87,9 @@ class CompetitionGroupsController extends Controller
     /**
      * @Route("/competitionGroups/createGroup", name="competition_group_create")
      */
-    public function createGroup() {
+    public function createGroup() 
+    {
+        $this->denyAccessUnlessGranted('ROLE_MANAGEMENT', null, 'Unable to access this page!');
         
         $em = $this->getDoctrine()->getManager();
         
@@ -121,7 +123,7 @@ class CompetitionGroupsController extends Controller
 
     protected function createPDFVersionOfGroup($groupId, $competitionGroupsArr, $competitionGroupsTmp)
     {
-        $filename = 'Group_'.$groupId.'.pdf';
+        $filename = 'Gruppe_'.$groupId.'.pdf';
 
         $html = $this->renderView('competitionGroups/groupList_PDF.html.twig', array(
               'competitionGroupsFights'  => $competitionGroupsArr,
@@ -142,7 +144,8 @@ class CompetitionGroupsController extends Controller
       );
     }
     
-    private function FightLayoutByMemberCount($numberFighters, $groupFighters) {
+    private function FightLayoutByMemberCount($numberFighters, $groupFighters) 
+    {
         
         $generatedFights = array();
         switch ($numberFighters):

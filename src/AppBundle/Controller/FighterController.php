@@ -27,6 +27,7 @@ class FighterController extends Controller
         foreach ($fighters as $fighter) {
             $ageGroupFighters[$fighter->getAgeGroup()->getName()]['fighters'][] = $fighter;
         }
+        
         ksort($ageGroupFighters);
         
         $groupsRepository = $this->getDoctrine()
@@ -73,6 +74,8 @@ class FighterController extends Controller
      */
     public function createFighterAction(Request $request)
     {
+        $this->denyAccessUnlessGranted('ROLE_MANAGEMENT', null, 'Unable to access this page!');
+        
         $em = $this->getDoctrine()->getManager();
 
         $fighter = new Fighter();
@@ -116,6 +119,9 @@ class FighterController extends Controller
      */
     public function editFighterAction(Request $request, $id=0)
     {
+        
+        $this->denyAccessUnlessGranted('ROLE_MANAGEMENT', null, 'Unable to access this page!');
+        
         $em = $this->getDoctrine()->getManager();
 
         $fighterRepository = $this->getDoctrine()
@@ -178,7 +184,11 @@ class FighterController extends Controller
     /**
      * @Route("/fighter/deleteFighter/{id}", name="deleteFighter")
      */
-    public function deleteFighter($id) {
+    public function deleteFighter($id) 
+    {
+        
+        $this->denyAccessUnlessGranted('ROLE_MANAGEMENT', null, 'Unable to access this page!');
+        
         $em = $this->getDoctrine()->getManager();
         
         $fighter = $this->getDoctrine()

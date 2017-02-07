@@ -114,6 +114,10 @@
                 <source>Password</source>
                 <target>Passwort</target>
             </trans-unit>
+            <trans-unit id="30">
+                <source>Groups</source>
+                <target>Gruppen</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
