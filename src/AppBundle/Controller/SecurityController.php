@@ -8,7 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class SecurityController extends Controller
 {
     /**
-     * @Route("/login", name="login")
+     * @Route("/loginIndex", name="loginIndex")
      */
     public function loginAction() {
         
@@ -19,7 +19,7 @@ class SecurityController extends Controller
         $lastUsername = $authenticationUtils->getLastUsername();
         
         return $this->render('security/login.html.twig', array(
-            'last_username' => $lastUsername,
+           'lastUsername' => $lastUsername,
             'error' => $error,
         ));
     }
