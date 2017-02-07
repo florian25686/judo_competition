@@ -107,3 +107,8 @@ assetic:
         jquery:
             inputs:
                 - %kernel.root_dir%/../src/AppBundle/Resources/js/jquery-3.1.1.min.js
+
+fos_user: 
+    db_driver: orm
+    user_class: AppBundle\Entity\User
+    firewall_name: main 
