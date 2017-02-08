@@ -38,6 +38,10 @@
                 <source>menu.logout</source>
                 <target>Abmelden</target>
             </trans-unit>
+            <trans-unit id="10">
+                <source>menu.create.agegroups</source>
+                <target>Altersgruppe erstellen</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

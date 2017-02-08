@@ -82,42 +82,22 @@ class AgeGroupController extends Controller
     }
 
      /**
-     * @Route("/fighter/editFighter/{id}", name="editFighter")
+     * @Route("/agegroup/editAgeGroup/{id}", name="editAgeGroup")
      */
-    public function editFighterAction(Request $request, $id=0)
+    public function editAgeGroupAction(Request $request, $id=0)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $fighterRepository = $this->getDoctrine()
-                        ->getRepository('AppBundle:Fighter');
+        $AgeGroupRepository = $this->getDoctrine()
+                        ->getRepository('AppBundle:AgeGroups');
 
-        $fighter = $fighterRepository->findOneById($id);
+        $ageGroup = $AgeGroupRepository->findOneById($id);
 
-        $group = $fighter->getGroups();
-       // Group has been printed and there some data shouldn't be changed easily
-        $disabled_fields = false;
-
-        if ($group && $group->getStatus() == 2) {
-            $disabled_fields = true;
-        } elseif ($group && $group->getStatus() == 1) {
-            $group->addFighter($fighter);
-                $em->persist($group);
-        }
-
-
-        $form = $this->createForm(FighterType::class, $fighter)
-            ->add('weight', null, array(
-                'disabled' => $disabled_fields,
-             ))
-            ->add('gender', null, array(
-                'disabled' => $disabled_fields,
-            ))
-            ->add('birthDate', null, array(
-                'disabled' => $disabled_fields,
-            ))
-            ->add('groups', null, array(
-                'disabled' => $disabled_fields
-            ));
+        
+        $form = $this->createFormBuilder($ageGroup)
+                        ->add('name')
+                        ->add('save', SubmitType::class, array('label' => 'Save'))
+                        ->getForm();
 
 
         $form->handleRequest($request);
@@ -126,18 +106,11 @@ class AgeGroupController extends Controller
             $fighter = $form->getData();
             // Check if group exists
 
-            if ($group && $group->getStatus() == 1) {
-                // Fighter add
-                $group->addFighter($fighter);
-                $em->persist($group);
-            } else {
-                
-            }
-
-            $em->persist($fighter);
+           
+            $em->persist($ageGroup);
             $em->flush();
 
-            return $this->redirectToRoute('fighterIndex');
+            return $this->redirectToRoute('ageGroupIndex');
         }
         return $this->render('fighter/createFighter.html.twig', [
             'form' => $form->createView(),
