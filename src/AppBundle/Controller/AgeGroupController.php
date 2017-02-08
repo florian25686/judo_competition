@@ -2,12 +2,13 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\Fighter;
+use AppBundle\Entity\AgeGroups;
 use AppBundle\Entity\Groups;
 use AppBundle\Form\FighterType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class AgeGroupController extends Controller
 {
@@ -49,41 +50,29 @@ class AgeGroupController extends Controller
     /**
      * TODO: Create the form, block the groupaddition if someone is already in a group
      *
-     * @Route("/fighter/createFighter", name="createFighter")
+     * @Route("/agegroup/createAgeGroup", name="createAgeGroup")
      * @param Request $request
      */
-    public function createFighterAction(Request $request)
+    public function createAgeGroupAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $fighter = new Fighter();
-        $fighter->setinFight(0);
+        $ageGroup = new AgeGroups();
         
-        $form = $this->createForm(FighterType::class, $fighter);
+        $form = $this->createFormBuilder($ageGroup)
+                ->add('name')
+                ->add('save', SubmitType::class, array('label' => 'Save'))
+                ->getForm();
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
-            $fighter = $form->getData();
-            // Check if group exists
-            $group = $em->getRepository('AppBundle:Groups')
-                    ->find($fighter->getGroupId());
-
-            if ($group->getId() && $group->getStatus() == 1) {
-                $group->addFighter($fighter);
-                $em->persist($group);
-            } elseif (!$group) {
-                $group = new Groups();
-                $group->addFighter($fighter);
-                $group->setStatus(1);
-                $group->setDeleted(null);
-                $em->persist($group);
-            }
-
-            $em->persist($fighter);
+            $ageGroup = $form->getData();
+            
+            $em->persist($ageGroup);
             $em->flush();
 
-            return $this->redirectToRoute('fighterIndex');
+            return $this->redirectToRoute('ageGroupIndex');
         }
 
 
