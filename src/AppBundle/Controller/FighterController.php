@@ -205,7 +205,7 @@ class FighterController extends Controller
         $em->flush();
         
         
-        return $this->setRoute('fighterIndex');
+        return $this->redirectToRoute('fighterIndex');
     }
 
 
