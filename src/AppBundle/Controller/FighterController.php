@@ -74,7 +74,7 @@ class FighterController extends Controller
      */
     public function createFighterAction(Request $request)
     {
-        $this->denyAccessUnlessGranted('ROLE_MANAGEMENT', null, 'Unable to access this page!');
+        $this->denyAccessUnlessGranted('ROLE_RECEPTION', null, 'Unable to access this page!');
         
         $em = $this->getDoctrine()->getManager();
 
@@ -87,21 +87,22 @@ class FighterController extends Controller
 
         if ($form->isSubmitted()) {
             $fighter = $form->getData();
-            // Check if group exists
-            $group = $em->getRepository('AppBundle:Groups')
-                    ->find($fighter->getGroupId());
+            if ($fighter->getGroupId()) {
+                // Check if group exists
+                $group = $em->getRepository('AppBundle:Groups')
+                        ->find($fighter->getGroupId());
 
-            if ($group->getId() && $group->getStatus() == 1) {
-                $group->addFighter($fighter);
-                $em->persist($group);
-            } elseif (!$group) {
-                $group = new Groups();
-                $group->addFighter($fighter);
-                $group->setStatus(1);
-                $group->setDeleted(null);
-                $em->persist($group);
+                if ($group->getId() && $group->getStatus() == 1) {
+                    $group->addFighter($fighter);
+                    $em->persist($group);
+                } elseif (!$group) {
+                    $group = new Groups();
+                    $group->addFighter($fighter);
+                    $group->setStatus(1);
+                    $group->setDeleted(null);
+                    $em->persist($group);
+                }
             }
-
             $em->persist($fighter);
             $em->flush();
 

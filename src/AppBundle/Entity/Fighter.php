@@ -75,6 +75,7 @@ class Fighter
     {
         $this->gender = 'm';
         $this->deleted = 0;
+        $this->groups = '0';
     }
 
     /**
@@ -252,7 +253,7 @@ class Fighter
      */
     public function getGroupId()
     {
-        return $this->groupId;
+        return $this->groups ? $this->groups->getId() : 0;
     }
 
     /**

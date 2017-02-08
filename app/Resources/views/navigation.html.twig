@@ -38,7 +38,7 @@
                   <a href="/fighter" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{% trans %} menu.fighter {% endtrans %} <span class="caret"></span></a>
                 <ul class="dropdown-menu">
                     <li><a href="{{ url('fighterIndex') }}">{% trans %} menu.overview.fighter {% endtrans %}</a></li>
-                    {% if is_granted("ROLE_MANAGEMENT") %}
+                    {% if is_granted("ROLE_RECEPTION") %}
                         <li><a href="{{ url('createFighter') }}">{% trans from "navigation" %} menu.create.fighter {% endtrans %}</a></li>
                     {% endif %}
                 </ul>
