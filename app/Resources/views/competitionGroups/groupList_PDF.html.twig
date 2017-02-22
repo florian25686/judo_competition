@@ -1,22 +1,16 @@
-{% extends 'base.html.twig' %}
+{% extends 'pdf.html.twig' %}
 {# Read the URL, Parameter "print" should add the print class #}
 
 {% block body %}
-<!--div id="container" class="visible-print-inline" style="width: 21cm; height: 29.7cm;"-->
-    <div class="container" >
+<div id="container" class="visible-print-inline" style="width: 21cm; height: 29.7cm;">
     {% for key,competitionGroup in competitionGroups %}
-        <div class="col-xs-10">
-            <h2>Gruppe {{ key }}</h2>
+        <div class="col-md-10">
+            <h2>{% trans %}Group{%endtrans%} {{ key }}</h2>
          </div>
-        <div class="col-xs-2">
-              <a href="{{ path('competition_group_display', { 'id' : key}) }}/pdf">
-              <span class="glyphicon glyphicon-print" aria-hidden="true"></span>
-              </a>
-        </div>
-	 <div class="row">
-            <div class="col-xs-8">
 
-              <table class="table table-striped">
+	 <div class="visible-print-inline visible-print">
+            <div class="col-md-8">
+              <table class="col-md-8 table table-striped">
                 <thead>
                   <tr>
                     <th>#</th>
@@ -43,8 +37,8 @@
             </div>
          </div>
          <div class="row">
-             <div class="col-xs-9">
-                  <table class="table table-bordered table-striped">
+             <div class="col-md-9">
+                  <table class="table table-bordered table-striped visible-print">
                       <thead>
                         <tr>
                             <td>#</td>

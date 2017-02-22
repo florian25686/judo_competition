@@ -1,5 +1,5 @@
 competition:
-    resource: "@CompetitionBundle/Controller/"
+    resource: "@AppBundle/Controller/"
     type:     annotation
     prefix:   /
 
@@ -7,3 +7,9 @@ import:
     resource: "@ImportBundle/Controller/"
     type:     annotation
     prefix:   /import/
+
+fos_user:
+    resource: "@FOSUserBundle/Resources/config/routing/all.xml"
+    
+logout: 
+    path: /logout

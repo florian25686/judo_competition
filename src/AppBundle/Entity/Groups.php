@@ -1,6 +1,6 @@
 <?php
 
-namespace CompetitionBundle\Entity;
+namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Groups
  *
  * @ORM\Table(name="groups")
- * @ORM\Entity(repositoryClass="CompetitionBundle\Repository\GroupsRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\GroupsRepository")
  */
 class Groups
 {
@@ -33,15 +33,28 @@ class Groups
      * @ORM\Column(name="status", type="smallint")
      */
     private $status;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="AgeGroups", inversedBy="fightGroup")
+     * @ORM\JoinColumn(name="agegroup", referencedColumnName="id")
+     */
+     private $ageGroup;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="deleted", type="datetime")
+     * @ORM\Column(name="deleted", type="datetime", options={"default": null}, nullable=true)
      */
     private $deleted;
 
-
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->fighters = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
     /**
      * Get id
      *
@@ -52,6 +65,9 @@ class Groups
         return $this->id;
     }
 
+    public function __toString() {
+        return (string) $this->id;
+    }
     /**
      * Set fighters
      *
@@ -122,5 +138,54 @@ class Groups
     public function getDeleted()
     {
         return $this->deleted;
+    }
+
+
+    /**
+     * Add fighter
+     *
+     * @param \AppBundle\Entity\Fighter $fighter
+     *
+     * @return Groups
+     */
+    public function addFighter(\AppBundle\Entity\Fighter $fighter)
+    {
+        $this->fighters[] = $fighter;
+
+        return $this;
+    }
+
+    /**
+     * Remove fighter
+     *
+     * @param \AppBundle\Entity\Fighter $fighter
+     */
+    public function removeFighter(\AppBundle\Entity\Fighter $fighter)
+    {
+        $this->fighters->removeElement($fighter);
+    }
+
+    /**
+     * Set ageGroup
+     *
+     * @param \AppBundle\Entity\AgeGroups $ageGroup
+     *
+     * @return Groups
+     */
+    public function setAgeGroup(\AppBundle\Entity\AgeGroups $ageGroup = null)
+    {
+        $this->ageGroup = $ageGroup;
+
+        return $this;
+    }
+
+    /**
+     * Get ageGroup
+     *
+     * @return \AppBundle\Entity\AgeGroups
+     */
+    public function getAgeGroup()
+    {
+        return $this->ageGroup;
     }
 }

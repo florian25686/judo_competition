@@ -6,11 +6,11 @@ imports:
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    locale: en
+    locale: de
 
 framework:
     #esi:             ~
-    #translator:      { fallbacks: ["%locale%"] }
+    translator:      { fallbacks: ["%locale%"] }
     secret:          "%secret%"
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
@@ -106,4 +106,9 @@ assetic:
             output: "fonts/glyphicons-halflings-regular.woff2"
         jquery:
             inputs:
-                - %kernel.root_dir%/../src/CompetitionBundle/Resources/js/jquery-3.1.1.min.js
+                - %kernel.root_dir%/../src/AppBundle/Resources/js/jquery-3.1.1.min.js
+
+fos_user: 
+    db_driver: orm
+    user_class: AppBundle\Entity\User
+    firewall_name: main 

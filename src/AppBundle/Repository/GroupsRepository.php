@@ -1,6 +1,6 @@
 <?php
 
-namespace CompetitionBundle\Repository;
+namespace AppBundle\Repository;
 
 /**
  * GroupsRepository
