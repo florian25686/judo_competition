@@ -41,9 +41,7 @@ class Groups
      private $ageGroup;
 
     /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="deleted", type="datetime", options={"default": null}, nullable=true)
+     * @ORM\Column(name="deleted", type="boolean")
      */
     private $deleted;
 
