@@ -146,6 +146,10 @@
                 <source>create.agegroup.button</source>
                 <target>Alterklasse erstellen</target>
             </trans-unit>
+            <trans-unit id="38">
+                <source>create.competitionGroups.button</source>
+                <target>Wettkampfgruppe erstellen</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
