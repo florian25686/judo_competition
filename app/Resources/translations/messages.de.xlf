@@ -150,6 +150,14 @@
                 <source>create.competitionGroups.button</source>
                 <target>Wettkampfgruppe erstellen</target>
             </trans-unit>
+            <trans-unit id="39">
+                <source>message.group.deleted</source>
+                <target>Gruppe gelöscht</target>
+            </trans-unit>
+            <trans-unit id="40">
+                <source>message.group.not_empty</source>
+                <target>Gruppe kann nicht gelöscht werden (nicht leer)</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

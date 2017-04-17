@@ -68,6 +68,9 @@
                                                 <a href="{{ path('competition_group_display', { 'id' : key}) }}/pdf" alt="PDF">
                                                     <span class="glyphicon glyphicon-print" aria-hidden="true"></span>
                                                 </a>
+                                                <a href="{{ path('competition_group_delete', { 'id' : key}) }}">
+                                                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                                </a>
                                             {% endif %}
                                       </td>
                                   </tr>

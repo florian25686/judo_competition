@@ -26,8 +26,8 @@ class CompetitionGroupsController extends Controller
         $groupsRepository = $this->getDoctrine()
                                     ->getRepository('AppBundle:Groups');
 
-        $groups = $groupsRepository->findAll(
-                    array('deleted' => null)
+        $groups = $groupsRepository->findBy(
+                    array('deleted' => 0)
                 );        
         
         $competitionGroupsArr = array();
@@ -96,6 +96,7 @@ class CompetitionGroupsController extends Controller
         
         $group = new Groups();
         $group->setStatus(1);
+        $group->setDeleted(0);
 
         $form = $this->createForm(GroupType::class, $group);
 
@@ -114,6 +115,38 @@ class CompetitionGroupsController extends Controller
         return $this->render('competitionGroups/createGroups.html.twig', [
             'form' => $form->createView()
         ]);
+    }
+
+    /**
+     * @Route("/competitionGroups/delete_group/{id}", name="competition_group_delete")
+     */
+    public function deleteGroup($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $groupToDelete = $this->getDoctrine()
+            ->getRepository('AppBundle:Groups')
+            ->findOneBy(array('id' => $id));
+
+        if($groupToDelete->getId() == $id)
+        {
+            $numberActiveFighters = count($groupToDelete->getFighters());
+            if($numberActiveFighters == 0)
+            {
+                $groupToDelete->setDeleted(1);
+                $em->persist($groupToDelete);
+                $em->flush();
+                $this->addFlash('success', 'message.group.deleted');
+            } elseif ($numberActiveFighters > 0) {
+               $this->addFlash('error', 'message.group.not_empty');
+            }
+
+        }
+
+
+
+
+        return $this->redirectToRoute('competition_groups_view');
     }
 
     /**
@@ -236,4 +269,6 @@ class CompetitionGroupsController extends Controller
     {
         return 2;
     }
+
+
 }
