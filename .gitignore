@@ -52,3 +52,4 @@
 /web/config.php
 /docker/*
 src/ImportBundle/Controller/fighter.csv
+.idea/
