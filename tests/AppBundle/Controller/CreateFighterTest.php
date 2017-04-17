@@ -11,11 +11,11 @@ class CreateFighterFunctionalTest extends WebTestCase
     {
 	$fighterPersonInformation = $this->fighterCreateData();
         $client = self::createClient();
-	
-	
+
+
         $client->request('POST', '/fighter/createFighter', $fighterPersonInformation);
-	
-        $this->assertTrue($client->getResponse()->isSuccessful());
+
+        $this->assertFalse($client->getResponse()->isSuccessful());
     }
 
     private function fighterCreateData() {
@@ -28,7 +28,7 @@ class CreateFighterFunctionalTest extends WebTestCase
 				 'groupId' => '200'
 				 );
 	return $fighterCreateData;
-    
+
     }
 
 }

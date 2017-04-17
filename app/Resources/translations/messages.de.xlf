@@ -118,6 +118,26 @@
                 <source>Groups</source>
                 <target>Gruppen</target>
             </trans-unit>
+            <trans-unit id="31">
+                <source>weightUnit</source>
+                <target>kg</target>
+            </trans-unit>
+            <trans-unit id="32">
+                <source>Number_short</source>
+                <target>Nr</target>
+            </trans-unit>
+            <trans-unit id="33">
+                <source>Count_short</source>
+                <target>Anz</target>
+            </trans-unit>
+            <trans-unit id="34">
+                <source>word_min_short</source>
+                <target>min</target>
+            </trans-unit>
+            <trans-unit id="35">
+                <source>word_max_short</source>
+                <target>max</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

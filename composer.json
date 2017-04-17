@@ -31,7 +31,8 @@
         "twbs/bootstrap": "^3.3.7",
         "symfony/assetic-bundle": "^2.8",
         "knplabs/knp-snappy-bundle": "~1.4",
-        "friendsofsymfony/user-bundle": "~2.0@dev"
+        "friendsofsymfony/user-bundle": "~2.0@dev",
+	"phpunit/phpunit": "6.0.12"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
