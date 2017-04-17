@@ -30,7 +30,28 @@
             {% javascripts '@jquery' '@bootstrap_js' %}
                 <script type="text/javascript" src="{{ asset_url }}"></script>
             {% endjavascripts %}
-
+            
+            <script>
+                $(document).ready(
+                    function() {
+                  
+                    $("#editItem").delegate('td', 'click',
+                      function() {
+                        var value = '123';
+                        var input = $( "<input type=\"text\" id='clicked' value="+value+"></input>").insertAfter( this );
+                        var saveButton = $( "<input type=\"submit\" id='submit' value=\"Speichern\"></input>").insertAfter( input );
+                        var resetButton = $( "<input type=\"reset\" id=\"reset\" value=\"Reset\"></input>").insertAfter( saveButton );
+                        $("#submit").click(function(){
+                          var submitField = $( "#clicked" ).val();
+                          alert("button clicked: "+submitField);
+                        });
+                        $("#reset").click(function(){
+                            alert("reset");
+                        });
+                        $( this ).detach();
+                      });
+                });    
+            </script>
             
         {% endblock %}
 

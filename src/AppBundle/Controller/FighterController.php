@@ -38,9 +38,22 @@ class FighterController extends Controller
         
         foreach($groups as $group) {
             $fighterNumber = count($group->getFighters());
+            $minWeightInGroup = 200;
+            $maxWeightInGroup = 0;
+            foreach($group->getFighters() as $fighter) {
+                $weight = $fighter->getWeight();
+                if($weight < $minWeightInGroup) {
+                    $minWeightInGroup = $weight;
+                } elseif ($weight > $maxWeightInGroup) {
+                    $maxWeightInGroup = $weight;
+                }
+            }
+            
             $fighterCountPerGroups[$group->getAgeGroup()->getName()]['groups'][] = array(
                                                                                     'id' => $group->getId(),
                                                                                     'numberFighter' => $fighterNumber,
+                                                                                     'minWeightFighter' => $minWeightInGroup,
+                                                                                     'maxWeightFighter' => $maxWeightInGroup
                                                                                     );
          }
        

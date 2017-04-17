@@ -44,7 +44,7 @@
                                   <td >{{ loop.index }}</td>
                                   <td >{{fighter.lastName}}</td>
                                   <td>{{fighter.firstName}}</td>
-                                  <td>{{fighter.weight}}</td>
+                                  <td id="editItem {{fighter.id}}" value="{{fighter.weight}}">{{fighter.weight}}</td>
                                   <td>{{fighter.gender}}</td>
                                   <td>{{fighter.ageGroup}}</td>
                                   <td>{{fighter.groups}}</td>
@@ -88,11 +88,31 @@
                 <div id="collapse1{{ loop.index }}" class="panel-collapse collapse {{ collapsein }}" role="tabpanel" aria-labelledby="heading1{{ loop.index }}">
                 <div class="panel-body">
                     <table class="table table-striped">
+                        
+                        <th>{% trans %}Number_short{% endtrans %}</th>
+                        <th>{% trans %}Count_short{% endtrans %}.</th>
+                        <th>{% trans %}word_min_short{% endtrans %}</th>
+                        <th>{% trans %}word_max_short{% endtrans %}</th>
+                        
                     {% for ageGroups in ageGroup.groups %}
                         
                             <tr>
-                                <td>{% trans %}Group{% endtrans %} {{ ageGroups.id }}</td>
+                                <td> {{ ageGroups.id }}</td>
                                 <td>{{ ageGroups.numberFighter }} </td>
+                                <td>
+                                    {% if ageGroups.minWeightFighter != 200 %}
+                                        {{ ageGroups.minWeightFighter }} {% trans %} weightUnit {% endtrans %}
+                                    {% elseif ageGroups.minWeightFighter == 200 %}
+                                        0 {% trans %} weightUnit {% endtrans %}
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if ageGroups.maxWeightFighter != 0 %}
+                                        {{ ageGroups.maxWeightFighter }} {% trans %} weightUnit {% endtrans %}
+                                    {% elseif ageGroups.maxWeightFighter == 0 %}
+                                        0 {% trans %} weightUnit {% endtrans %}
+                                    {% endif %}
+                                </td>
                                     
                             </tr>
                        {% endfor %}
