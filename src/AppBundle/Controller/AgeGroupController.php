@@ -2,9 +2,7 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\AgeGroups;
-use AppBundle\Entity\Groups;
-use AppBundle\Form\FighterType;
+use AppBundle\Form\AgeGroupType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -57,12 +55,7 @@ class AgeGroupController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $ageGroup = new AgeGroups();
-        
-        $form = $this->createFormBuilder($ageGroup)
-                ->add('name')
-                ->add('save', SubmitType::class, array('label' => 'Save'))
-                ->getForm();
+        $form = $this->createForm(AgeGroupType::class);
 
         $form->handleRequest($request);
 

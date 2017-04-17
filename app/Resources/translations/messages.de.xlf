@@ -119,7 +119,7 @@
                 <target>Gruppen</target>
             </trans-unit>
             <trans-unit id="31">
-                <source>weightUnit</source>
+                    <source>weightUnit</source>
                 <target>kg</target>
             </trans-unit>
             <trans-unit id="32">
@@ -137,6 +137,14 @@
             <trans-unit id="35">
                 <source>word_max_short</source>
                 <target>max</target>
+            </trans-unit>
+            <trans-unit id="36">
+                <source>Fighter</source>
+                <target>Wettkämpfer</target>
+            </trans-unit>
+            <trans-unit id="37">
+                <source>create.agegroup.button</source>
+                <target>Alterklasse erstellen</target>
             </trans-unit>
         </body>
     </file>
