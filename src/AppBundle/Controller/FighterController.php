@@ -34,7 +34,7 @@ class FighterController extends Controller
                         ->getRepository('AppBundle:Groups');
         
         $groups = $groupsRepository
-                ->findBy(array('deleted' => null));
+                ->findBy(array('deleted' => 0));
         
         foreach($groups as $group) {
             $fighterNumber = count($group->getFighters());

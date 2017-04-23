@@ -62,7 +62,7 @@ class CompetitionGroupsController extends Controller
         $fighterRepository = $this->getDoctrine()
                 ->getRepository('AppBundle:Fighter');
 
-        $competitionGroupsTmp = '';
+        $competitionGroupsTmp = array();
         foreach ($groups as $group) {
             $fightersInGroup = $group->getFighters();
 
@@ -71,7 +71,6 @@ class CompetitionGroupsController extends Controller
             }
         }
 
-        
         $competitionGroupFights = $this->generateFights($competitionGroupsTmp);
 
         if ($display == 'pdf') {
