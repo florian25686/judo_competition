@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Form\GroupType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,8 +26,8 @@ class CompetitionGroupsController extends Controller
         $groupsRepository = $this->getDoctrine()
                                     ->getRepository('AppBundle:Groups');
 
-        $groups = $groupsRepository->findAll(
-                    array('deleted' => null)
+        $groups = $groupsRepository->findBy(
+                    array('deleted' => 0)
                 );        
         
         $competitionGroupsArr = array();
@@ -87,7 +88,7 @@ class CompetitionGroupsController extends Controller
     /**
      * @Route("/competitionGroups/createGroup", name="competition_group_create")
      */
-    public function createGroup() 
+    public function createGroup(Request $request)
     {
         $this->denyAccessUnlessGranted('ROLE_MANAGEMENT', null, 'Unable to access this page!');
         
@@ -95,15 +96,60 @@ class CompetitionGroupsController extends Controller
         
         $group = new Groups();
         $group->setStatus(1);
-        
-        $em->persist($group);
-        
-        $em->flush();
-        
-        return true;
+        $group->setDeleted(0);
+
+        $form = $this->createForm(GroupType::class, $group);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()) {
+            $group = $form->getData();
+            // Check if group exists
+
+
+            $em->persist($group);
+            $em->flush();
+
+            return $this->redirectToRoute('competition_groups_view');
+        }
+        return $this->render('competitionGroups/createGroups.html.twig', [
+            'form' => $form->createView()
+        ]);
     }
+
     /**
-     * TODO: This function should be excluded into another controller
+     * @Route("/competitionGroups/delete_group/{id}", name="competition_group_delete")
+     */
+    public function deleteGroup($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $groupToDelete = $this->getDoctrine()
+            ->getRepository('AppBundle:Groups')
+            ->findOneBy(array('id' => $id));
+
+        if($groupToDelete->getId() == $id)
+        {
+            $numberActiveFighters = count($groupToDelete->getFighters());
+            if($numberActiveFighters == 0)
+            {
+                $groupToDelete->setDeleted(1);
+                $em->persist($groupToDelete);
+                $em->flush();
+                $this->addFlash('success', 'message.group.deleted');
+            } elseif ($numberActiveFighters > 0) {
+               $this->addFlash('error', 'message.group.not_empty');
+            }
+
+        }
+
+
+
+
+        return $this->redirectToRoute('competition_groups_view');
+    }
+
+    /**
      * Generate fights dynamically based on the inputs array
      *
      * @param array $competitionGroupsTmp
@@ -223,4 +269,6 @@ class CompetitionGroupsController extends Controller
     {
         return 2;
     }
+
+
 }
