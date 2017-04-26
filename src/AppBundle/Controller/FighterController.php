@@ -118,8 +118,8 @@ class FighterController extends Controller
             }
             $em->persist($fighter);
             $em->flush();
-
-            return $this->redirectToRoute('fighterIndex');
+            $this->addFlash('success', 'message.fighter.created');
+            return $this->redirectToRoute('createFighter');
         }
 
 

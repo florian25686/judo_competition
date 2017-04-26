@@ -158,6 +158,10 @@
                 <source>message.group.not_empty</source>
                 <target>Gruppe kann nicht gelöscht werden (nicht leer)</target>
             </trans-unit>
+            <trans-unit id="41">
+                <source>message.fighter.created</source>
+                <target>Wettkämpfer erstellt</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
