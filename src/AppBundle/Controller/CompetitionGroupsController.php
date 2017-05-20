@@ -52,15 +52,12 @@ class CompetitionGroupsController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $groupsRepository = $this->getDoctrine()
+       $groupsRepository = $this->getDoctrine()
                             ->getRepository('AppBundle:Groups');
 
         $groups = $groupsRepository->findBy(
                     array('id' => $id, 'deleted' => 0)
                 );
-
-        $fighterRepository = $this->getDoctrine()
-                ->getRepository('AppBundle:Fighter');
 
         $competitionGroupsTmp = array();
         foreach ($groups as $group) {
@@ -75,6 +72,12 @@ class CompetitionGroupsController extends Controller
 
         if ($display == 'pdf') {
             $pdfResponse = $this->createPDFVersionOfGroup($id, $competitionGroupFights, $competitionGroupsTmp);
+
+            $group = $groupsRepository->findOneBy(array('id'=>$id));
+            $group->setStatus(2);
+            $em->persist($group);
+            $em->flush();
+
             return $pdfResponse;
         }
 
@@ -188,8 +191,6 @@ class CompetitionGroupsController extends Controller
     
     private function FightLayoutByMemberCount($numberFighters, $groupFighters) 
     {
-        print "number:".$numberFighters;
-        print "groupFighters:".count($groupFighters);
         $generatedFights = array();
         switch ($numberFighters):
             case 2:
