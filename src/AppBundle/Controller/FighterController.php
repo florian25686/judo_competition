@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 class FighterController extends Controller
 {
     /**
-     * @Route("/fighter", name="fighterIndex")
+     * @Route("/fighter/", name="fighterIndex")
      */
     public function indexAction(Request $request)
     {
@@ -56,10 +56,16 @@ class FighterController extends Controller
                                                                                      'maxWeightFighter' => $maxWeightInGroup
                                                                                     );
          }
-       
+         if(null !== $request->get('sortField')) {
+            $sortField = $request->get('sortField');
+         } else {
+             $sortField = "weight";
+         }
+
         return $this->render('fighter/index.html.twig', [
             'ageGroupFighters' => $ageGroupFighters,
             'fighterCountPerGroups' => $fighterCountPerGroups,
+            'sortField' => $sortField
         ]);
     }
 

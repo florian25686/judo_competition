@@ -26,19 +26,41 @@
                     <table class="table table-striped">
                       <thead>
                         <tr>
-                          <th>#</th>
-                          <th>{% trans %}Last name{% endtrans %}</th>
-                          <th>{% trans %}First name{% endtrans %}</th>
-                          <th>{% trans %}Weight {% endtrans %}</th>
-                          <th>{% trans %}Gender{% endtrans %}</th>
-                          <th>{% trans %}Age group {% endtrans %}</th>
-                          <th>{% trans %}Group id {% endtrans %}</th>
-                          <th>{% trans %}Club {% endtrans %}</th>
-                          <th>&nbsp;</th>
+                            <th>#</th>
+                            <th>
+                                <a href="{{ url('fighterIndex', {'sortField': 'lastName'}) }}">
+                                    {% trans %}Last name{% endtrans %}
+                                </a>
+                            </th>
+                            <th>
+                                {% trans %}First name{% endtrans %}
+                            </th>
+                            <th>
+                                <a href="{{ url('fighterIndex', {'sortField': 'weight'}) }}">
+                                    {% trans %}Weight {% endtrans %}
+                                </a>
+                            </th>
+                            <th>
+                                <a href="{{ url('fighterIndex', {'sortField': 'gender'}) }}">
+                                    {% trans %}Gender{% endtrans %}
+                                </a>
+                            </th>
+                            <th>
+                                {% trans %}Age group {% endtrans %}
+                            </th>
+                            <th>
+                                <a href="{{ url('fighterIndex', {'sortField': 'groups'}) }}">
+                                    {% trans %}Group id {% endtrans %}
+                                </a>
+                            </th>
+                            <th>
+                                {% trans %}Club {% endtrans %}
+                            </th>
+                            <th>&nbsp;</th>
                         </tr>
                       </thead>
                           <tbody>
-                              {% for fighter in ageGroup.fighters %}
+                              {% for fighter in ageGroup.fighters  | sortbyfield( sortField ) %}
                               <tr>
                                   <td style="display:none" id="fighterId">{{ fighter.id }}</td>
                                   <td >{{ loop.index }}</td>

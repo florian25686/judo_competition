@@ -6,3 +6,7 @@ parameters:
 services:
     importer.csv:
       class: ImportBundle\Services\ImportCSV
+    twig.extension.sortbyfield:
+            class: Snilius\Twig\SortByFieldExtension
+            tags:
+                - { name: twig.extension }
