@@ -6,6 +6,7 @@ use AppBundle\Entity\Fighter;
 use AppBundle\Entity\Groups;
 use AppBundle\Form\FighterType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -208,7 +209,9 @@ class FighterController extends Controller
                 'disabled' => true
             ));
         } else {
-            $form->add('groups', null, array(
+            $form->add('groups', EntityType::class, array(
+                'class' => 'AppBundle:Groups',
+                'choice_label' => 'AgeGroupChoice',
                 'disabled' => $disabled_fields
             ));
         }
