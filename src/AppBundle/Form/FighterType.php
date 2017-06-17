@@ -3,10 +3,10 @@
 namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Doctrine\ORM\EntityRepository;
 
@@ -24,7 +24,7 @@ class FighterType extends AbstractType
                 'placeholder' => array(
                     'year' => 'Year', 'month' => 'Month', 'day' => 'Day',
                 ),
-                'years' => range(2003,2011),
+                'years' => range(1999,2010),
             ))
             ->add('club')
             ->add('gender')

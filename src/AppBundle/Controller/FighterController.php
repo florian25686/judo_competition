@@ -85,15 +85,18 @@ class FighterController extends Controller
 
         return $fighters;
     }
+
     /**
      * TODO: Create the form, block the groupaddition if someone is already in a group
      *
      * @Route("/fighter/createFighter", name="createFighter")
      * @param Request $request
+     * s
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function createFighterAction(Request $request)
     {
-        $this->denyAccessUnlessGranted('ROLE_RECEPTION', null, 'Unable to access this page!');
+        $this->denyAccessUnlessGranted('ROLE_WEIGHT', null, 'Unable to access this page!');
         
         $em = $this->getDoctrine()->getManager();
 
@@ -101,6 +104,14 @@ class FighterController extends Controller
         $fighter->setinFight(0);
         
         $form = $this->createForm(FighterType::class, $fighter);
+
+        if (true == $this->get('security.authorization_checker')->isGranted('ROLE_WEIGHT')
+            && false == $this->get('security.authorization_checker')->isGranted('ROLE_MANAGEMENT')
+        ) {
+            $form->add('groups', null, array(
+                'disabled' => true
+            ));
+        }
 
         $form->handleRequest($request);
 
@@ -134,13 +145,17 @@ class FighterController extends Controller
     ]);
     }
 
-     /**
+    /**
      * @Route("/fighter/editFighter/{id}", name="editFighter")
+     * @param Request $request
+     * @param int $id
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function editFighterAction(Request $request, $id=0)
     {
         
-        $this->denyAccessUnlessGranted('ROLE_MANAGEMENT', null, 'Unable to access this page!');
+        $this->denyAccessUnlessGranted('ROLE_WEIGHT', null, 'Unable to access this page!');
         
         $em = $this->getDoctrine()->getManager();
 
@@ -148,18 +163,15 @@ class FighterController extends Controller
                         ->getRepository('AppBundle:Fighter');
 
         $fighter = $fighterRepository->findOneById($id);
-
         $group = $fighter->getGroups();
        // Group has been printed and there some data shouldn't be changed easily
         $disabled_fields = false;
-
         if ($group && $group->getStatus() == 2) {
             $disabled_fields = true;
         } elseif ($group && $group->getStatus() == 1) {
             $group->addFighter($fighter);
                 $em->persist($group);
         }
-
 
         $form = $this->createForm(FighterType::class, $fighter)
             ->add('weight', null, array(
@@ -170,17 +182,24 @@ class FighterController extends Controller
             ))
             ->add('birthDate', null, array(
                 'disabled' => $disabled_fields,
-            ))
-            ->add('groups', null, array(
-                'disabled' => $disabled_fields
             ));
 
+        if (true ==$this->get('security.authorization_checker')->isGranted('ROLE_WEIGHT')
+            && false ==$this->get('security.authorization_checker')->isGranted('ROLE_MANAGEMENT')
+        ) {
+            $form->add('groups', null, array(
+                'disabled' => true
+            ));
+        } else {
+            $form->add('groups', null, array(
+                'disabled' => $disabled_fields
+            ));
+        }
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
             $fighter = $form->getData();
-            // Check if group exists
 
             if ($group && $group->getStatus() == 1) {
                 // Fighter add
@@ -197,8 +216,8 @@ class FighterController extends Controller
         }
         return $this->render('fighter/createFighter.html.twig', [
             'form' => $form->createView(),
-                'id'   => $id
-    ]);
+            'id'   => $id
+         ]);
     }
     
     /**
