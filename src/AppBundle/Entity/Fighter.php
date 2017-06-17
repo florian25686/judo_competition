@@ -45,7 +45,7 @@ class Fighter
      private $ageGroup;
      
      /**
-     * @ORM\Column(name="birthDate", type="date")
+     * @ORM\Column(name="birthDate", type="string", length=4)
      */
      private $birthDate;
 

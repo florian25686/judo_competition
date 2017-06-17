@@ -162,6 +162,14 @@
                 <source>message.fighter.created</source>
                 <target>Wettkämpfer erstellt</target>
             </trans-unit>
+            <trans-unit id="42">
+                <source>create.fighter.birthYear</source>
+                <target>Geburtsjahr</target>
+            </trans-unit>
+            <trans-unit id="43">
+                <source>edit.fighter.button</source>
+                <target>Kämpfer aktualisieren</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

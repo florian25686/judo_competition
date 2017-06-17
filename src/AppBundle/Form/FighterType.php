@@ -3,12 +3,10 @@
 namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Doctrine\ORM\EntityRepository;
 
 class FighterType extends AbstractType
 {
@@ -19,13 +17,24 @@ class FighterType extends AbstractType
             ->add('firstName')
             ->add('weight')
             ->add('ageGroup')
-            ->add('birthDate', BirthdayType::class, array(
-                'format' => 'dd MM yyyy',
-                'placeholder' => array(
-                    'year' => 'Year', 'month' => 'Month', 'day' => 'Day',
-                ),
-                'years' => range(1999,2010),
-            ))
+            ->add('birthDate', ChoiceType::class, array(
+                'choices'  => array(
+                    '1999' => '1999',
+                    '2000' => '2000',
+                    '2001' => '2001',
+                    '2002' => '2002',
+                    '2003' => '2003',
+                    '2004' => '2004',
+                    '2005' => '2005',
+                    '2006' => '2006',
+                    '2007' => '2007',
+                    '2008' => '2008',
+                    '2009' => '2009',
+                    '2010' => '2010',
+                    '2011' => '2011',
+                    ),
+                )
+            )
             ->add('club')
             ->add('gender')
             ->add('groups')
