@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Fighter;
+use AppBundle\Entity\Groups;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,40 +27,67 @@ class ImportController extends Controller
       foreach($importedFighterFromFile as $fighterFromFile) {
         $this->createFighterAction($fighterFromFile);
       }
-return "imported";
+
+        return $this->render('base.html.twig');
     }
 
     private function createFighterAction(array $fighterFromFile)
     {
         $em = $this->getDoctrine()->getManager();
-        print_r($fighterFromFile);
-        
+
+        if ($this->fighterAlreadyExists($fighterFromFile)) {
+            return;
+        }
+
         $fighter = new Fighter();
         $fighter->setFirstName($fighterFromFile['Vorname']);
         $fighter->setLastName($fighterFromFile['Nachname']);
-        
-        $birthDate = new \DateTime($fighterFromFile['Jahr'].'-01-01');
-        $fighter->setBirthDate($birthDate);
+
+        $fighter->setBirthDate($fighterFromFile['Jahrgang']);
         
         $ageGroupRepository = $this->getDoctrine()
                             ->getRepository('AppBundle:AgeGroups');
         
         $ageGroup = $ageGroupRepository
                 ->findBy(
-                        array('name' => $fighterFromFile['Klasse'])
+                        array('name' => $fighterFromFile['Altersklasse'])
                         );
         
         $fighter->setAgeGroup($ageGroup[0]);
         $fighter->setWeight($fighterFromFile['Gewicht']);
         $fighter->setGender($fighterFromFile['Geschlecht']);
         $fighter->setClub($fighterFromFile['Verein']);
-        $fighter->setinFight(0);
-        $fighter->setGroupId(100);
-
+        $fighter->setGroups(null);
+        $fighter->setInFight(false);
         $em->persist($fighter);
         $em->flush();
 
-return "ok";
+    }
+
+    private function fighterAlreadyExists($fighterFromFile)
+    {
+        $fighterRepository = $fighterRepository = $this->getDoctrine()
+            ->getRepository('AppBundle:Fighter');
+
+        $ageGroupRepository = $this->getDoctrine()
+            ->getRepository('AppBundle:AgeGroups');
+
+        $ageGroup = $ageGroupRepository
+            ->findBy(
+                array('name' => $fighterFromFile['Altersklasse'])
+            );
+
+        $fighter = $fighterRepository->findOneBy(
+            [
+             'firstName' => $fighterFromFile['Vorname'],
+             'lastName' => $fighterFromFile['Nachname'],
+             'ageGroup' => $ageGroup[0],
+            ]
+        );
+
+        if($fighter) {
+            return true;
+        }
     }
 
 }

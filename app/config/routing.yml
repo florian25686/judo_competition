@@ -3,11 +3,6 @@ competition:
     type:     annotation
     prefix:   /
 
-import:
-    resource: "@ImportBundle/Controller/"
-    type:     annotation
-    prefix:   /import/
-
 fos_user:
     resource: "@FOSUserBundle/Resources/config/routing/all.xml"
     
