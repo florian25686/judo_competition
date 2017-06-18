@@ -167,6 +167,7 @@ class FighterController extends Controller
 
         $fighter = $fighterRepository->findOneById($id);
         $group = $fighter->getGroups();
+
        // Group has been printed and there some data shouldn't be changed easily
         $disabled_fields = false;
         if ($group && $group->getStatus() == 2) {
@@ -174,6 +175,10 @@ class FighterController extends Controller
         } elseif ($group && $group->getStatus() == 1) {
             $group->addFighter($fighter);
                 $em->persist($group);
+        }
+
+        if(true ==$this->get('security.authorization_checker')->isGranted('ROLE_SUPER_ADMIN')) {
+            $disabled_fields = false;
         }
 
         $form = $this->createForm(FighterType::class, $fighter)
