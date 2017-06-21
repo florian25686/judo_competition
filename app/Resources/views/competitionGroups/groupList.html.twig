@@ -7,17 +7,17 @@
     {% for key,competitionGroup in competitionGroups %}
         <div class="col-xs-10">
             <h2>Gruppe {{ key }}</h2>
-            <h3>{% trans %}Age group {% endtrans %} {{ competitionGroup[0].ageGroup }}</h3>
+            <h4>{% trans %}Age group {% endtrans %}: {{ competitionGroup[0].ageGroup }}</h4>
          </div>
         <div class="col-xs-2">
               <a href="{{ path('competition_group_display', { 'id' : key}) }}/pdf">
               <span class="glyphicon glyphicon-print" aria-hidden="true"></span>
               </a>
         </div>
-	 <div class="row">
-            <div class="col-xs-8">
+	    <div class="row">
+            <div class="col-xs-9">
 
-              <table class="table table-striped">
+              <table class="table table-bordered table-striped">
                 <thead>
                   <tr>
                     <th>#</th>
@@ -26,6 +26,7 @@
                     <th>{% trans %}Weight {% endtrans %}</th>
                     <th>{% trans %}Gender{% endtrans %}</th>
                     <th>{% trans %}Club {% endtrans %}</th>
+                    <th>{% trans %}Wins {% endtrans %}</th>
                   </tr>
                 </thead>
                     <tbody>
@@ -37,6 +38,7 @@
                             <td>{{fighter.weight}}</td>
                             <td>{{fighter.gender}}</td>
                             <td>{{fighter.club}}</td>
+                            <td></td>
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -52,7 +54,7 @@
                             <td>{% trans %}fighter.weight{% endtrans %}</td>
                             <td>{% trans %}fighter.blue{% endtrans %}</td>
                             <td>{% trans %}result.points{% endtrans %}</td>
-                            <td>{% trans %}fighter.winner.name{% endtrans %}</td>
+                            <td class="col-xs-4">{% trans %}fighter.winner.name{% endtrans %}</td>
                         </tr>
                       </thead>
                       <tbody>
@@ -70,6 +72,28 @@
                   </tbody>
             </table>
          </div>
+             <div class="col-xs-9">
+                 <table class="table table-bordered table-striped">
+                     <thead>
+                     <tr>
+                         <th class="col-xs-1">Platz</th>
+                         <th class="col-xs-3">{% trans %}Last name{% endtrans %}</th>
+                         <th class="col-xs-3">{% trans %}First name{% endtrans %}</th>
+                         <th class="col-xs-2">{% trans %}Club {% endtrans %}</th>
+                     </tr>
+                     </thead>
+                     <tbody>
+                     {% for fighter in competitionGroup %}
+                         <tr>
+                             <td>{{ loop.index }}</td>
+                             <td></td>
+                             <td></td>
+                             <td></td>
+                         </tr>
+                     {% endfor %}
+                     </tbody>
+                 </table>
+             </div>
      </div>
      <p class="visible-print-block" style="page-break-after:always;">
      </p>
