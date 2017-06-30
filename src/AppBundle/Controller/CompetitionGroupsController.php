@@ -269,7 +269,7 @@ class CompetitionGroupsController extends Controller
                     $generatedFights[6]['blue']  = $groupFighters[5];
                     //8
                     $generatedFights[7]['white'] = $groupFighters[0];
-                    $generatedFights[7]['blue']  = $groupFighters[4];
+                    $generatedFights[7]['blue']  = $groupFighters[3];
                     //9
                     $generatedFights[8]['white'] = $groupFighters[1];
                     $generatedFights[8]['blue']  = $groupFighters[5];
