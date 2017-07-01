@@ -190,6 +190,6 @@ class Groups
     public function getAgeGroupChoice()
     {
         $numberFighters = count($this->getFighters());
-        return $this->getId() . ' ('.$this->ageGroup.') Anz: '.$numberFighters;
+        return $this->getId() . ' Anz: '.$numberFighters;
     }
 }
