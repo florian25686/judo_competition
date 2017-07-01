@@ -217,6 +217,7 @@ class FighterController extends Controller
         } else {
             $form->add('groups', EntityType::class, array(
                 'class' => 'AppBundle:Groups',
+                'choices' => $this->getAvailableGroupsForFighter($fighter),
                 'choice_label' => 'AgeGroupChoice',
                 'disabled' => $disabled_fields
             ));
@@ -273,5 +274,14 @@ class FighterController extends Controller
         return $this->redirectToRoute('fighterIndex');
     }
 
+    private function getAvailableGroupsForFighter($fighter)
+    {
+        $groupsRepository = $this->getDoctrine()
+            ->getRepository('AppBundle:Groups');
+
+        $groups = $groupsRepository->findByAgeGroup($fighter->getAgeGroup());
+
+        return $groups;
+    }
 
 }
