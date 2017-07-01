@@ -81,8 +81,8 @@ class FighterController extends Controller
 
         $query = $fighterRepository->createQueryBuilder('f')
                             ->where('f.deleted = 0')
-                            ->orderBy('f.gender', 'asc')
-                            ->orderBy('f.weight', 'ASC')
+                            ->orderBy('f.gender', 'ASC')
+                            ->addOrderBy('f.weight', 'ASC')
                             ->getQuery();
 
         $fighters = $query->getResult();
