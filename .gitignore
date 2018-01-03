@@ -53,3 +53,4 @@
 /docker/*
 src/ImportBundle/Controller/fighter.csv
 .idea/
+competition.sql
