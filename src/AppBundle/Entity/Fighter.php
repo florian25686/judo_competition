@@ -75,7 +75,6 @@ class Fighter
     {
         $this->gender = 'm';
         $this->deleted = 0;
-        $this->groups = '0';
     }
 
     /**
